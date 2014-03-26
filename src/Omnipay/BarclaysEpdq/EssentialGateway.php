@@ -33,7 +33,10 @@ class EssentialGateway extends AbstractGateway
      */
     public function purchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\BarclaysEpdq\Message\EssentialPurchaseRequest', array_merge($this->parameters->all(), $parameters));
+        return $this->createRequest(
+            '\Omnipay\BarclaysEpdq\Message\EssentialPurchaseRequest',
+            array_merge($this->parameters->all(), $parameters)
+        );
     }
 
     /**
@@ -42,7 +45,10 @@ class EssentialGateway extends AbstractGateway
      */
     public function completePurchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\BarclaysEpdq\Message\EssentialCompletePurchaseRequest', array_merge($this->parameters->all(), $parameters));
+        return $this->createRequest(
+            '\Omnipay\BarclaysEpdq\Message\EssentialCompletePurchaseRequest',
+            array_merge($this->parameters->all(), $parameters)
+        );
     }
 
     public function getClientId()

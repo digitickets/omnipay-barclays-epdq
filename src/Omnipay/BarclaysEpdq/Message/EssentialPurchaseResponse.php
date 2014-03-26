@@ -34,4 +34,5 @@ class EssentialPurchaseResponse extends AbstractResponse implements RedirectResp
     {
         return $this->getData();
     }
+
 }

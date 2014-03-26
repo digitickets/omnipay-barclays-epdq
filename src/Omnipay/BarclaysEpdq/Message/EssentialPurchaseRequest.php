@@ -166,7 +166,7 @@ class EssentialPurchaseRequest extends AbstractRequest
     protected function cleanParameters($data)
     {
         $clean = array();
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             if (!is_null($value) && $value !== false && $value !== '') {
                 $clean[strtoupper($key)] = $value;
             }
@@ -180,7 +180,7 @@ class EssentialPurchaseRequest extends AbstractRequest
         ksort($data);
 
         $shaString = '';
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             $shaString .= sprintf('%s=%s%s', strtoupper($key), $value, $shaKey);
         }
 
