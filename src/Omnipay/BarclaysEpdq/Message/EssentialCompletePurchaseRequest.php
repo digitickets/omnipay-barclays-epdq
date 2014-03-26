@@ -12,10 +12,7 @@ class EssentialCompletePurchaseRequest extends EssentialPurchaseRequest
     public function getData()
     {
         // Barclays allows GET or POST methods for the sending of parameters..
-        $requestData = $this->httpRequest->request->all();
-        if ($this->getCallbackMethod() == 'GET') {
-            $requestData = $this->httpRequest->query->all();
-        }
+        $requestData = $this->getRequestData();
 
         // Calculate the SHA and verify if it is a legitimate request
         if ($this->getShaOut() && array_key_exists('SHASIGN', $requestData)) {
@@ -30,6 +27,15 @@ class EssentialCompletePurchaseRequest extends EssentialPurchaseRequest
         }
 
         return $requestData;
+    }
+
+    public function getRequestData()
+    {
+        if ($this->getCallbackMethod() == 'POST') {
+            return $this->httpRequest->request->all();
+        }
+
+        return $this->httpRequest->query->all();
     }
 
     public function sendData($data)
