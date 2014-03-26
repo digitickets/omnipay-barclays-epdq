@@ -11,6 +11,7 @@ use Omnipay\Common\AbstractGateway;
  */
 class EssentialGateway extends AbstractGateway
 {
+
     public function getName()
     {
         return 'BarclaysEpdq';
@@ -24,6 +25,24 @@ class EssentialGateway extends AbstractGateway
             'language' => 'en_US',
             'callbackMethod' => 'POST'
         );
+    }
+
+    /**
+     * @param array $parameters
+     * @return \Omnipay\BarclaysEpdq\Message\EssentialPurchaseRequest
+     */
+    public function purchase(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\BarclaysEpdq\Message\EssentialPurchaseRequest', array_merge($this->parameters->all(), $parameters));
+    }
+
+    /**
+     * @param array $parameters
+     * @return \Omnipay\BarclaysEpdq\Message\EssentialCompletePurchaseRequest
+     */
+    public function completePurchase(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\BarclaysEpdq\Message\EssentialCompletePurchaseRequest', array_merge($this->parameters->all(), $parameters));
     }
 
     public function getClientId()
@@ -96,21 +115,4 @@ class EssentialGateway extends AbstractGateway
         return $this->setParameter('exceptionUrl', $value);
     }
 
-    /**
-     * @param array $parameters
-     * @return \Omnipay\BarclaysEpdq\Message\EssentialPurchaseRequest
-     */
-    public function purchase(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\BarclaysEpdq\Message\EssentialPurchaseRequest', array_merge($this->parameters->all(), $parameters));
-    }
-
-    /**
-     * @param array $parameters
-     * @return \Omnipay\BarclaysEpdq\Message\EssentialCompletePurchaseRequest
-     */
-    public function completePurchase(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\BarclaysEpdq\Message\EssentialCompletePurchaseRequest', array_merge($this->parameters->all(), $parameters));
-    }
 }
