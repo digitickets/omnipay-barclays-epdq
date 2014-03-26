@@ -24,5 +24,4 @@ class EssentialPurchaseRequestTest extends TestCase
 
         $this->assertSame($actualSha, $request->calculateSha($stub, $shaIn));
     }
-
 }

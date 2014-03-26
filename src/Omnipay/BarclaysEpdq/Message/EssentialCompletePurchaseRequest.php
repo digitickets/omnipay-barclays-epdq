@@ -36,5 +36,4 @@ class EssentialCompletePurchaseRequest extends EssentialPurchaseRequest
     {
         return $this->response = new EssentialCompletePurchaseResponse($this, $data);
     }
-
 }

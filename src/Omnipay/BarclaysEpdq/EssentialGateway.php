@@ -120,5 +120,4 @@ class EssentialGateway extends AbstractGateway
     {
         return $this->setParameter('exceptionUrl', $value);
     }
-
 }

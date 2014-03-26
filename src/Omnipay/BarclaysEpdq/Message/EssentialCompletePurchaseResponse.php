@@ -88,5 +88,4 @@ class EssentialCompletePurchaseResponse extends AbstractResponse
 
         return null;
     }
-
 }
