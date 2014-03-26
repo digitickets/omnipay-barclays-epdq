@@ -48,7 +48,7 @@ class EssentialCompletePurchaseResponseTest extends TestCase
             )
         );
 
-        $this->assertSame('Invalid Card', $response->getNcErrorPlus());
+        $this->assertSame('Invalid card', $response->getNcErrorPlus());
     }
 
     public function testCompletePurchaseSuccess()

@@ -16,9 +16,16 @@ class EssentialPurchaseRequestTest extends TestCase
             $this->getHttpRequest()
         );
 
-        $this->request->initialize(array(
+        $this->requestStub = array(
+            'clientId' => 'clientId',
+            'amount' => 10.00,
+            'currency' => 'GBP',
+            'orderId' => '1111',
+            'language' =>' en_US',
+            'blankParam' => null
+        );
 
-        ));
+        $this->request->initialize($this->requestStub);
     }
 
     public function testHashSuccess()
@@ -46,4 +53,31 @@ class EssentialPurchaseRequestTest extends TestCase
 
         $this->assertNotSame($actualSha, $this->request->calculateSha($stub, $shaIn));
     }
+
+    public function testDataWithoutSha()
+    {
+        $data = $this->request->getData();
+
+        $this->assertArrayNotHasKey('SHASIGN', $data);
+    }
+
+    public function testDataGetsCleaned()
+    {
+        $data = $this->request->getData();
+
+        $this->assertArrayNotHasKey('blankParam', $data);
+    }
+
+    public function testDataWithSha()
+    {
+        $this->request->initialize(array_merge($this->requestStub, array(
+            'shaIn' => 'password'
+        )));
+
+        $data = $this->request->getData();
+
+        $this->assertArrayHasKey('SHASIGN', $data);
+        $this->assertArrayNotHasKey('blankParam', $data);
+    }
+
 }
