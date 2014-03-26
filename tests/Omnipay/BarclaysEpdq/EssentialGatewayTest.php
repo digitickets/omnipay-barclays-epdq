@@ -73,7 +73,7 @@ class EssentialGatewayTest extends GatewayTestCase
             )
         );
 
-        $response = $this->gateway->completePurchase($this->options)->send();
+        $this->gateway->completePurchase($this->options)->send();
     }
 
     public function testCompletePurchaseError()

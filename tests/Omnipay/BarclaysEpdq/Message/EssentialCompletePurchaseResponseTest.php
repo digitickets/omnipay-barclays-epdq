@@ -6,6 +6,21 @@ use Omnipay\Tests\TestCase;
 
 class EssentialCompletePurchaseResponseTest extends TestCase
 {
+
+    public function testUnknownStatus()
+    {
+        $response = new EssentialCompletePurchaseResponse(
+            $this->getMockRequest(),
+            array(
+                'STATUS' => '453464',
+                'PAYID' => 'abc123',
+                'NCERROR' => '0'
+            )
+        );
+
+        $this->assertNull($response->getMessage());
+    }
+
     public function testCompletePurchaseSuccess()
     {
         $response = new EssentialCompletePurchaseResponse(
