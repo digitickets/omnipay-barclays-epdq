@@ -6,6 +6,12 @@ use Omnipay\Tests\GatewayTestCase;
 
 class EssentialGatewayTest extends GatewayTestCase
 {
+
+    /**
+     * @var EssentialGateway
+     */
+    protected $gateway;
+
     public function setUp()
     {
         parent::setUp();
@@ -20,6 +26,22 @@ class EssentialGatewayTest extends GatewayTestCase
             'returnUrl' => 'https://www.example.com/return',
             'shaOut' => '$Lue6v7IQiS.5xy?hMh'
         );
+    }
+
+    public function testSettersAndGetters()
+    {
+        $vars = array('shaIn', 'shaOut', 'declineUrl', 'exceptionUrl');
+
+
+        foreach($vars as $var) {
+            $value = uniqid();
+
+            $setMethod = sprintf("set%s", ucfirst($var));
+            $getMethod = sprintf("get%s", ucfirst($var));
+
+            $this->assertSame($this->gateway, $this->gateway->$setMethod($value));
+            $this->assertSame($value, $this->gateway->$getMethod());
+        }
     }
 
     public function testPurchase()

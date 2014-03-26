@@ -2,10 +2,18 @@
 
 namespace Omnipay\BarclaysEpdq\Message;
 
+use Omnipay\Common\CreditCard;
+use Omnipay\Common\Item;
+use Omnipay\Common\ItemBag;
 use Omnipay\Tests\TestCase;
 
 class EssentialPurchaseRequestTest extends TestCase
 {
+
+    /**
+     * @var EssentialPurchaseRequest
+     */
+    protected $request;
 
     public function setUp()
     {
@@ -78,6 +86,63 @@ class EssentialPurchaseRequestTest extends TestCase
 
         $this->assertArrayHasKey('SHASIGN', $data);
         $this->assertArrayNotHasKey('blankParam', $data);
+    }
+
+    public function testSettersAndGetters()
+    {
+        $vars = array('declineUrl', 'exceptionUrl');
+
+        foreach($vars as $var) {
+            $value = uniqid();
+
+            $setMethod = sprintf("set%s", ucfirst($var));
+            $getMethod = sprintf("get%s", ucfirst($var));
+
+            $this->assertSame($this->request, $this->request->$setMethod($value));
+            $this->assertSame($value, $this->request->$getMethod());
+        }
+    }
+
+    public function testCardDetails()
+    {
+        $card = new CreditCard();
+        $card->setName('Test Foo');
+        $card->setEmail('foo@bar.com');
+        $card->setCompany('Test Company');
+
+        $this->request->setCard($card);
+
+        $data = $this->request->getData();
+
+        $this->assertSame("Test Foo", $data['CN']);
+        $this->assertSame("foo@bar.com", $data['EMAIL']);
+        $this->assertSame("Test Company", $data['COM']);
+    }
+
+    public function testItems()
+    {
+        $item = new Item();
+        $item->setName('Foo 1');
+        $item->setDescription('Bar description.');
+        $item->setPrice(5.00);
+        $item->setQuantity(2);
+
+        $bag = new ItemBag(array(
+            $item
+        ));
+
+        $this->request->setItems($bag);
+
+        $data = $this->request->getData();
+
+        foreach ($bag->all() as $key => $value) {
+            /** @var Item $value */
+            $this->assertSame($data["ITEMNAME$key"], $value->getName());
+            $this->assertSame($data["ITEMDESC$key"], $value->getDescription());
+            $this->assertSame($data["ITEMQUANT$key"], $value->getQuantity());
+            $this->assertSame($data["ITEMPRICE$key"], $this->request->formatCurrency($value->getPrice()));
+        }
+
     }
 
 }
