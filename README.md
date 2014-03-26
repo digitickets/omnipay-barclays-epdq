@@ -17,7 +17,7 @@ to your `composer.json` file:
 ```json
 {
     "require": {
-        "samvaughton/omnipay-barclays-epdq": "~1.0"
+        "samvaughton/omnipay-barclays-epdq": "~2.0"
     }
 }
 ```
