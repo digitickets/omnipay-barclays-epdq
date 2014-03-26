@@ -124,5 +124,4 @@ class EssentialGateway extends AbstractGateway
     {
         return $this->setParameter('language', $value);
     }
-
 }
