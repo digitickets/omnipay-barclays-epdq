@@ -90,17 +90,11 @@ class EssentialPurchaseRequestTest extends TestCase
 
     public function testSettersAndGetters()
     {
-        $vars = array('declineUrl', 'exceptionUrl');
-
-        foreach($vars as $var) {
-            $value = uniqid();
-
-            $setMethod = sprintf("set%s", ucfirst($var));
-            $getMethod = sprintf("get%s", ucfirst($var));
-
-            $this->assertSame($this->request, $this->request->$setMethod($value));
-            $this->assertSame($value, $this->request->$getMethod());
-        }
+        $value = 'test-url';
+        $this->assertSame($this->request, $this->request->setReturnUrl($value));
+        $this->assertSame($value, $this->request->getReturnUrl());
+        $this->assertSame($value, $this->request->getDeclineUrl());
+        $this->assertSame($value, $this->request->getExceptionUrl());
     }
 
     public function testCardDetails()

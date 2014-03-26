@@ -91,6 +91,30 @@ class EssentialGateway extends AbstractGateway
         return $this->setParameter('shaOut', $value);
     }
 
+    public function getReturnUrl()
+    {
+        return $this->getParameter('returnUrl');
+    }
+
+    public function getDeclineUrl()
+    {
+        return $this->getParameter('declineUrl');
+    }
+
+    public function getExceptionUrl()
+    {
+        return $this->getParameter('exceptionUrl');
+    }
+
+    public function setReturnUrl($value)
+    {
+        $this->setParameter('returnUrl', $value);
+        $this->setParameter('declineUrl', $value);
+        $this->setParameter('exceptionUrl', $value);
+
+        return $this;
+    }
+
     public function getLanguage()
     {
         return $this->getParameter('language');
@@ -101,23 +125,4 @@ class EssentialGateway extends AbstractGateway
         return $this->setParameter('language', $value);
     }
 
-    public function getDeclineUrl()
-    {
-        return $this->getParameter('declineUrl');
-    }
-
-    public function setDeclineUrl($value)
-    {
-        return $this->setParameter('declineUrl', $value);
-    }
-
-    public function getExceptionUrl()
-    {
-        return $this->getParameter('exceptionUrl');
-    }
-
-    public function setExceptionUrl($value)
-    {
-        return $this->setParameter('exceptionUrl', $value);
-    }
 }

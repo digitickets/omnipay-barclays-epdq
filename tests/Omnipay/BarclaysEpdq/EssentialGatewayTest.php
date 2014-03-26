@@ -30,7 +30,7 @@ class EssentialGatewayTest extends GatewayTestCase
 
     public function testSettersAndGetters()
     {
-        $vars = array('shaIn', 'shaOut', 'declineUrl', 'exceptionUrl');
+        $vars = array('shaIn', 'shaOut');
 
 
         foreach($vars as $var) {
@@ -42,6 +42,12 @@ class EssentialGatewayTest extends GatewayTestCase
             $this->assertSame($this->gateway, $this->gateway->$setMethod($value));
             $this->assertSame($value, $this->gateway->$getMethod());
         }
+
+        $value = 'test-url';
+        $this->assertSame($this->gateway, $this->gateway->setReturnUrl($value));
+        $this->assertSame($value, $this->gateway->getReturnUrl());
+        $this->assertSame($value, $this->gateway->getDeclineUrl());
+        $this->assertSame($value, $this->gateway->getExceptionUrl());
     }
 
     public function testPurchase()
