@@ -69,13 +69,6 @@ class EssentialPurchaseRequest extends AbstractRequest
         return $this;
     }
 
-    public function setCancelUrl($value)
-    {
-        $this->setParameter('cancelUrl', $value);
-
-        return $this;
-    }
-
     public function getShaIn()
     {
         return $this->getParameter('shaIn');
