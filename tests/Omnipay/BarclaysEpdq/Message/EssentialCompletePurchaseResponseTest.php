@@ -7,6 +7,20 @@ use Omnipay\Tests\TestCase;
 class EssentialCompletePurchaseResponseTest extends TestCase
 {
 
+    public function testKnownStatus()
+    {
+        $response = new EssentialCompletePurchaseResponse(
+            $this->getMockRequest(),
+            array(
+                'STATUS' => '2',
+                'PAYID' => 'abc123',
+            )
+        );
+
+        $this->assertSame("Authorisation refused", $response->getMessage());
+        $this->assertNull($response->getNcError());
+    }
+
     public function testUnknownStatus()
     {
         $response = new EssentialCompletePurchaseResponse(
@@ -19,6 +33,22 @@ class EssentialCompletePurchaseResponseTest extends TestCase
         );
 
         $this->assertNull($response->getMessage());
+        $this->assertNull($response->getNcErrorPlus());
+    }
+
+    public function testNcErrors()
+    {
+        $response = new EssentialCompletePurchaseResponse(
+            $this->getMockRequest(),
+            array(
+                'STATUS' => '453464',
+                'PAYID' => 'abc123',
+                'NCERROR' => '0',
+                'NCERRORPLUS' => 'Invalid card'
+            )
+        );
+
+        $this->assertSame('Invalid Card', $response->getNcErrorPlus());
     }
 
     public function testCompletePurchaseSuccess()
