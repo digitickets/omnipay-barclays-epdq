@@ -123,7 +123,7 @@ class EssentialPurchaseRequest extends AbstractRequest
             $data['COM']             = $card->getCompany();
             $data['EMAIL']           = $card->getEmail();
             $data['OWNERZIP']        = $card->getPostcode();
-            $data['OWNERCITY']       = $card->getCity();
+            $data['OWNERTOWN']       = $card->getCity();
             $data['OWNERTELNO']      = $card->getPhone();
             $data['OWNERADDRESS']    = $card->getAddress1();
         }
