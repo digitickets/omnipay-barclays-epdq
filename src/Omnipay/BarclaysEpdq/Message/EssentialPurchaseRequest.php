@@ -35,16 +35,6 @@ class EssentialPurchaseRequest extends AbstractRequest
         return $this->setParameter('language', $value);
     }
 
-    public function getOrderId()
-    {
-        return $this->getParameter('orderId');
-    }
-
-    public function setOrderId($value)
-    {
-        return $this->setParameter('orderId', $value);
-    }
-
     public function getReturnUrl()
     {
         return $this->getParameter('returnUrl');
@@ -107,7 +97,7 @@ class EssentialPurchaseRequest extends AbstractRequest
 
         $data['PSPID']          = $this->getClientId();
 
-        $data['ORDERID']        = $this->getOrderId();
+        $data['ORDERID']        = $this->getTransactionId();
         $data['CURRENCY']       = $this->getCurrency();
         $data['LANGUAGE']       = $this->getLanguage();
         $data['AMOUNT']         = $this->getAmountInteger();
