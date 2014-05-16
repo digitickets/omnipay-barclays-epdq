@@ -12,8 +12,8 @@ use Omnipay\Common\Message\AbstractRequest;
 class EssentialPurchaseRequest extends AbstractRequest
 {
 
-    protected $liveEndpoint = 'https://payments.epdq.co.uk/ncol/prod/orderstandard.asp';
-    protected $testEndpoint = 'https://mdepayments.epdq.co.uk/ncol/test/orderstandard.asp';
+    protected $liveEndpoint = 'https://payments.epdq.co.uk/ncol/prod/orderstandard_utf8.asp';
+    protected $testEndpoint = 'https://mdepayments.epdq.co.uk/ncol/test/orderstandard_utf8.asp';
 
     public function getClientId()
     {
