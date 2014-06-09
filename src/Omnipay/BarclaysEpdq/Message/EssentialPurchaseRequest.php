@@ -91,7 +91,7 @@ class EssentialPurchaseRequest extends AbstractRequest
 
     public function getData()
     {
-        $this->validate('amount', 'clientId', 'orderId', 'currency', 'language');
+        $this->validate('amount', 'clientId', 'currency', 'language');
 
         $data = array();
 
