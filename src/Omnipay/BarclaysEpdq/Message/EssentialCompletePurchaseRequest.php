@@ -16,7 +16,7 @@ class EssentialCompletePurchaseRequest extends EssentialPurchaseRequest
 
         // Calculate the SHA and verify if it is a legitimate request
         if ($this->getShaOut() && array_key_exists('SHASIGN', $requestData)) {
-            $barclaysSha = (string) $requestData['SHASIGN'];
+            $barclaysSha = (string)$requestData['SHASIGN'];
             unset($requestData['SHASIGN']);
 
             $ourSha = $this->calculateSha($this->cleanParameters($requestData), $this->getShaOut());
@@ -31,11 +31,17 @@ class EssentialCompletePurchaseRequest extends EssentialPurchaseRequest
 
     public function getRequestData()
     {
-        if ($this->getCallbackMethod() == 'POST') {
-            return $this->httpRequest->request->all();
+        $data = ($this->getCallbackMethod() == 'POST') ?
+            $this->httpRequest->request->all() :
+            $this->httpRequest->query->all();
+        if (empty($data)) {
+            throw new InvalidResponseException(sprintf(
+                "No callback data was passed in the %s request",
+                $this->getCallbackMethod()
+            ));
         }
 
-        return $this->httpRequest->query->all();
+        return $data;
     }
 
     public function sendData($data)

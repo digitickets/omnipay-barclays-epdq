@@ -74,7 +74,7 @@ class EssentialCompletePurchaseResponse extends AbstractResponse
 
     public function getTransactionId()
     {
-        return isset($this->data['ORDERID']) ? $this->data['ORDERID'] : null;
+        return isset($this->data['orderID']) ? $this->data['orderID'] : null;
     }
 
     public function getNcError()
