@@ -57,7 +57,9 @@ class EssentialCompletePurchaseResponse extends AbstractResponse
 
     public function isSuccessful()
     {
-        return $this->getStatusCode() && $this->getStatusCode() === 5;
+        $successCodes = [5, 9];
+
+        return $this->getStatusCode() && in_array($this->getStatusCode(), $successCodes);
     }
 
     public function getStatusCode()
@@ -68,6 +70,11 @@ class EssentialCompletePurchaseResponse extends AbstractResponse
     public function getTransactionReference()
     {
         return isset($this->data['PAYID']) ? $this->data['PAYID'] : null;
+    }
+
+    public function getTransactionId()
+    {
+        return isset($this->data['ORDERID']) ? $this->data['ORDERID'] : null;
     }
 
     public function getNcError()
