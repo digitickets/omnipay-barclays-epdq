@@ -57,7 +57,7 @@ class EssentialGatewayTest extends GatewayTestCase
         $this->assertFalse($response->isSuccessful());
         $this->assertTrue($response->isRedirect());
         $this->assertNull($response->getTransactionReference());
-        $this->assertContains('https://payments.epdq.co.uk/ncol/prod/orderstandard.asp', $response->getRedirectUrl());
+        $this->assertContains('https://payments.epdq.co.uk/ncol/prod/order', $response->getRedirectUrl());
     }
 
     public function testCompletePurchaseSuccess()
