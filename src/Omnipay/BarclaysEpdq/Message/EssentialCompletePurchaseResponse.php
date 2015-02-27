@@ -57,7 +57,7 @@ class EssentialCompletePurchaseResponse extends AbstractResponse
 
     public function isSuccessful()
     {
-        $successCodes = [5, 9];
+        $successCodes = array(5, 9);
 
         return $this->getStatusCode() && in_array($this->getStatusCode(), $successCodes);
     }
