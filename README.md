@@ -36,15 +36,14 @@ The following gateways are provided by this package:
 For general usage instructions, please see the main [Omnipay](https://github.com/omnipay/omnipay)
 repository.
 
+## Tips for using this driver
+Barclays ePDQ (Essential) is not the most intuitive gateway to use, so with that in mind, here are a couple of pointers for a slightly less painful integration experience:
+* The driver defaults to using POST for the post-transaction server-to-server callback. Make sure you also set the callback method to POST in the Barclays back office. Alternatively, you can use GET by configuring the driver using the `setCallbackMethod()` method.
+* It seems you can't set the callback URL using parameters in your initital redirect. It can only be done in the Barclays back office.
+* Barclays only allow redirects to their payment page from URLs that you've already whitelisted. Make sure you've put the full URL of whichever page on your site does the redirect in the Barclays back office configuration.
+
 ## Support
 
 If you are having general issues with Omnipay, we suggest posting on
 [Stack Overflow](http://stackoverflow.com/). Be sure to add the
 [omnipay tag](http://stackoverflow.com/questions/tagged/omnipay) so it can be easily found.
-
-If you want to keep up to date with release anouncements, discuss ideas for the project,
-or ask more detailed questions, there is also a [mailing list](https://groups.google.com/forum/#!forum/omnipay) which
-you can subscribe to.
-
-If you believe you have found a bug, please report it using the [GitHub issue tracker](https://github.com/samvaughton/omnipay-barclays-epdq/issues),
-or better yet, fork the library and submit a pull request.
