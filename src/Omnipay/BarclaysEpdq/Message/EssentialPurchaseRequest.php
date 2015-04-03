@@ -114,8 +114,10 @@ class EssentialPurchaseRequest extends AbstractRequest
             $data['EMAIL']           = $card->getEmail();
             $data['OWNERZIP']        = $card->getPostcode();
             $data['OWNERTOWN']       = $card->getCity();
+            $data['OWNERCTY']        = $card->getCountry();
             $data['OWNERTELNO']      = $card->getPhone();
             $data['OWNERADDRESS']    = $card->getAddress1();
+            $data['OWNERADDRESS2']   = $card->getAddress2();
         }
 
         $items = $this->getItems();
