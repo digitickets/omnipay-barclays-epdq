@@ -107,6 +107,36 @@ class PageLayout
         $this->setParameter('tblTxtColor', $value);
     }
 
+    public function getHdTableBackgroundColor()
+    {
+        return $this->getParameter('hdTblBgColor');
+    }
+
+    public function setHdTableBackgroundColor($value)
+    {
+        $this->setParameter('hdTblBgColor', $value);
+    }
+
+    public function getHdTableTextColor()
+    {
+        return $this->getParameter('hdTblTxtColor');
+    }
+
+    public function setHdTableTextColor($value)
+    {
+        $this->setParameter('hdTblTxtColor', $value);
+    }
+
+    public function getHdFontType()
+    {
+        return $this->getParameter('hdFontType');
+    }
+
+    public function setHdFontType($value)
+    {
+        $this->setParameter('hdFontType', $value);
+    }
+
     public function getButtonBackgroundColor()
     {
         return $this->getParameter('buttonBgColor');

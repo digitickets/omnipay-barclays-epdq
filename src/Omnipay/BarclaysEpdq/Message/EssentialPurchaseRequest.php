@@ -151,6 +151,9 @@ class EssentialPurchaseRequest extends AbstractRequest
             $data['TXTCOLOR']       = $pageLayout->getTextColor();
             $data['TBLBGCOLOR']     = $pageLayout->getTableBackgroundColor();
             $data['TBLTXTCOLOR']    = $pageLayout->getTableTextColor();
+            $data['HDTBLBGCOLOR']   = $pageLayout->getHdTableBackgroundColor();
+            $data['HDTBLTXTCOLOR']  = $pageLayout->getHdTableTextColor();
+            $data['HDFONTTYPE']     = $pageLayout->getHdFontType();
             $data['BUTTONBGCOLOR']  = $pageLayout->getButtonBackgroundColor();
             $data['BUTTONTXTCOLOR'] = $pageLayout->getButtonTextColor();
             $data['FONTTYPE']       = $pageLayout->getFontType();
