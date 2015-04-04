@@ -2,6 +2,7 @@
 
 namespace Omnipay\BarclaysEpdq\Message;
 
+use Omnipay\BarclaysEpdq\Feedback;
 use Omnipay\Common\Currency;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Message\AbstractRequest;
@@ -89,6 +90,23 @@ class EssentialPurchaseRequest extends AbstractRequest
         return $this->setParameter('callbackMethod', $value);
     }
 
+    /**
+     * @return Feedback
+     */
+    public function getFeedback()
+    {
+        return $this->getParameter('feedback');
+    }
+
+    /**
+     * @param Feedback $value
+     * @return AbstractRequest
+     */
+    public function setFeedback($value)
+    {
+        return $this->setParameter('feedback', $value);
+    }
+
     public function getData()
     {
         $this->validate('amount', 'clientId', 'currency', 'language');
@@ -126,6 +144,12 @@ class EssentialPurchaseRequest extends AbstractRequest
                 $data["ITEMQUANT$n"] = $item->getQuantity();
                 $data["ITEMPRICE$n"] = $this->formatCurrency($item->getPrice());
             }
+        }
+
+        $feedback = $this->getFeedback();
+        if ($feedback) {
+            $data['COMPLUS']   = $feedback->getComPlus();
+            $data['PARAMPLUS'] = $feedback->getParamPlus();
         }
 
         $data = $this->cleanParameters($data);
