@@ -2,6 +2,7 @@
 
 namespace Omnipay\BarclaysEpdq\Message;
 
+use Omnipay\BarclaysEpdq\PageLayout;
 use Omnipay\Common\Currency;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Message\AbstractRequest;
@@ -89,6 +90,21 @@ class EssentialPurchaseRequest extends AbstractRequest
         return $this->setParameter('callbackMethod', $value);
     }
 
+    /**
+     * Get the page layout configuration
+     *
+     * @return PageLayout
+     */
+    public function getPageLayout()
+    {
+        return $this->getParameter('pageLayout');
+    }
+
+    public function setPageLayout($value)
+    {
+        return $this->setParameter('pageLayout', $value);
+    }
+
     public function getData()
     {
         $this->validate('amount', 'clientId', 'currency', 'language');
@@ -123,11 +139,27 @@ class EssentialPurchaseRequest extends AbstractRequest
         $items = $this->getItems();
         if ($items) {
             foreach ($items as $n => $item) {
-                $data["ITEMNAME$n"] = $item->getName();
-                $data["ITEMDESC$n"] = $item->getDescription();
+                $data["ITEMNAME$n"]  = $item->getName();
+                $data["ITEMDESC$n"]  = $item->getDescription();
                 $data["ITEMQUANT$n"] = $item->getQuantity();
                 $data["ITEMPRICE$n"] = $this->formatCurrency($item->getPrice());
             }
+        }
+
+        $pageLayout = $this->getPageLayout();
+        if ($pageLayout) {
+            $data['TITLE']          = $pageLayout->getTitle();
+            $data['BGCOLOR']        = $pageLayout->getBackgroundColor();
+            $data['TXTCOLOR']       = $pageLayout->getTextColor();
+            $data['TBLBGCOLOR']     = $pageLayout->getTableBackgroundColor();
+            $data['TBLTXTCOLOR']    = $pageLayout->getTableTextColor();
+            $data['HDTBLBGCOLOR']   = $pageLayout->getHdTableBackgroundColor();
+            $data['HDTBLTXTCOLOR']  = $pageLayout->getHdTableTextColor();
+            $data['HDFONTTYPE']     = $pageLayout->getHdFontType();
+            $data['BUTTONBGCOLOR']  = $pageLayout->getButtonBackgroundColor();
+            $data['BUTTONTXTCOLOR'] = $pageLayout->getButtonTextColor();
+            $data['FONTTYPE']       = $pageLayout->getFontType();
+            $data['LOGO']           = $pageLayout->getLogo();
         }
 
         $data = $this->cleanParameters($data);
