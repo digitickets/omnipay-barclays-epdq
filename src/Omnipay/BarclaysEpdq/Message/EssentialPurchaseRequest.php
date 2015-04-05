@@ -3,8 +3,7 @@
 namespace Omnipay\BarclaysEpdq\Message;
 
 use Omnipay\BarclaysEpdq\PageLayout;
-use Omnipay\Common\Currency;
-use Omnipay\Common\Exception\InvalidRequestException;
+use Omnipay\BarclaysEpdq\Delivery;
 use Omnipay\Common\Message\AbstractRequest;
 
 /**
@@ -105,6 +104,21 @@ class EssentialPurchaseRequest extends AbstractRequest
         return $this->setParameter('pageLayout', $value);
     }
 
+    /**
+     * Get the delivery and invoicing data parameters
+     *
+     * @return Delivery
+     */
+    public function getDelivery()
+    {
+        return $this->getParameter('delivery');
+    }
+
+    public function setDelivery($value)
+    {
+        return $this->setParameter('delivery', $value);
+    }
+
     public function getData()
     {
         $this->validate('amount', 'clientId', 'currency', 'language');
@@ -160,6 +174,37 @@ class EssentialPurchaseRequest extends AbstractRequest
             $data['BUTTONTXTCOLOR'] = $pageLayout->getButtonTextColor();
             $data['FONTTYPE']       = $pageLayout->getFontType();
             $data['LOGO']           = $pageLayout->getLogo();
+        }
+
+        $delivery = $this->getDelivery();
+        if ($delivery) {
+            $data['ORDERSHIPMETH'] = $delivery->getDeliveryMethod();
+            $data['ORDERSHIPCOST'] = $delivery->getDeliveryCost();
+            $data['ORDERSHIPTAXCODE'] = $delivery->getDeliveryTaxCode();
+            $data['CUID'] = $delivery->getCuid();
+            $data['CIVILITY'] = $delivery->getCivility();
+            $data['ECOM_CONSUMER_GENDER'] = $delivery->getGender();
+            $data['ECOM_BILLTO_POSTAL_NAME_FIRST'] = $delivery->getInvoicingFirstName();
+            $data['ECOM_BILLTO_POSTAL_NAME_LAST'] = $delivery->getInvoicingLastName();
+            $data['ECOM_BILLTO_POSTAL_STREET_LINE1'] = $delivery->getInvoicingAddress1();
+            $data['ECOM_BILLTO_POSTAL_STREET_LINE2'] = $delivery->getInvoicingAddress2();
+            $data['ECOM_BILLTO_POSTAL_STREET_NUMBER'] = $delivery->getInvoicingStreetNumber();
+            $data['ECOM_BILLTO_POSTAL_POSTALCODE'] = $delivery->getInvoicingPostalCode();
+            $data['ECOM_BILLTO_POSTAL_CITY'] = $delivery->getInvoicingCity();
+            $data['ECOM_BILLTO_POSTAL_COUNTRYCODE'] = $delivery->getInvoicingCountryCode();
+            $data['ECOM_SHIPTO_POSTAL_NAME_PREFIX'] = $delivery->getDeliveryNamePrefix();
+            $data['ECOM_SHIPTO_POSTAL_NAME_FIRST'] = $delivery->getDeliveryFirstName();
+            $data['ECOM_SHIPTO_POSTAL_LAST_FIRST'] = $delivery->getDeliveryLastName();
+            $data['ECOM_SHIPTO_POSTAL_STREET_LINE1'] = $delivery->getDeliveryAddress1();
+            $data['ECOM_SHIPTO_POSTAL_STREET_LINE2'] = $delivery->getDeliveryAddress2();
+            $data['ECOM_SHIPTO_POSTAL_STREET_NUMBER'] = $delivery->getDeliveryStreetNumber();
+            $data['ECOM_SHIPTO_POSTAL_POSTALCODE'] = $delivery->getDeliveryPostalCode();
+            $data['ECOM_SHIPTO_POSTAL_CITY'] = $delivery->getDeliveryCity();
+            $data['ECOM_SHIPTO_POSTAL_COUNTRYCODE'] = $delivery->getDeliveryCountryCode();
+            $data['ECOM_SHIPTO_ONLINE_EMAIL'] = $delivery->getDeliveryEmail();
+            $data['ECOM_SHIPTO_TELECOM_FAX_NUMBER'] = $delivery->getDeliveryFax();
+            $data['ECOM_SHIPTO_TELECOM_PHONE_NUMBER'] = $delivery->getDeliveryPhone();
+            $data['ECOM_SHIPTO_DOB'] = $delivery->getDeliveryBirthDate();
         }
 
         $data = $this->cleanParameters($data);
