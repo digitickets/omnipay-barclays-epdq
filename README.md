@@ -53,9 +53,45 @@ $purchase = $gateway->purchase();
 $purchase->setTransactionId('ORDER-00001'); // Unique ID
 $purchase->setAmount(5000); // 50£
 
-// send the HTTP query with POST parameters, you will be redirected to barclays payment server page
+// send the HTTP query with POST parameters
+// you will be redirected to barclays payment server page
 $purchase->send();
 ```
+
+## Supported languages
+
+The supported languages by barclays gateway are:
+
+- ar_AR (Arabic)
+- cs_CZ (Czech)
+- dk_DK (Danish)
+- de_DE (German)
+- el_GR (Greek)
+- en_US (English)
+- es_ES (Spanish)
+- fi_FI (Finnish)
+- fr_FR (French)
+- he_IL (Hebrew)
+- hu_(HU hungarian)
+- it_IT (Italian)
+- ja_JP (Japanese)
+- ko_KR (Korean)
+- nl_BE (Flemish)
+- nl_NL (Dutch)
+- no_NO (Norwegian)
+- pl_PL (Polish)
+- pt_PT (Portugese)
+- ru_RU (Russian)
+- se_SE (Swedish)
+- sk_SK (Slovak)
+- tr_TR (Turkish)
+- zh_CN (Simplified Chinese)
+
+## Supported currencies
+
+The supported currencies by barclays gateway are:
+
+- AED, ANG, ARS, AUD, AWG, BGN, BRL, BYR, CAD, CHF, CNY, CZK, DKK, EEK, EGP, EUR, GBP, GEL, HKD, HRK, HUF, ILS, ISK, JPY, KRW, LTL, LVL, MAD, MXN, NOK, NZD, PLN, RON, RUB, SEK, SGD, SKK, THB, TRY, UAH, USD, XAF, XOF, XPF and ZAR 
 
 ## Tips for using this driver
 Barclays ePDQ (Essential) is not the most intuitive gateway to use, so with that in mind, here are a couple of pointers for a slightly less painful integration experience:
