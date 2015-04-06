@@ -53,9 +53,14 @@ $purchase = $gateway->purchase();
 $purchase->setTransactionId('ORDER-00001'); // Unique ID
 $purchase->setAmount(5000); // 50£
 
+/**
+ * @var $request EssentialPurchaseResponse
+ */
+$response = $purchase->send();
+ 
 // send the HTTP query with POST parameters
 // you will be redirected to barclays payment server page
-$purchase->send();
+$response->redirect();
 ```
 
 ## Supported languages
