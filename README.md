@@ -36,6 +36,27 @@ The following gateways are provided by this package:
 For general usage instructions, please see the main [Omnipay](https://github.com/omnipay/omnipay)
 repository.
 
+## Advanced Usage
+
+The example below explains how you can create a purchase request then send it.
+
+```php
+// create a gateway instance using onminpay factory
+$gateway = Omnipay::getFactory()->create('BarclaysEpdq\Essential');
+$gateway->setClientId('reseller_pspid');
+$gateway->setShaIn('sha_in_passphrase');
+$gateway->setCurrency('GBP');
+
+// create a purchase request
+$purchase = $gateway->purchase();
+
+$purchase->setTransactionId('ORDER-00001'); // Unique ID
+$purchase->setAmount(5000); // 50£
+
+// send the HTTP query with POST parameters, you will be redirected to barclays payment server page
+$purchase->send();
+```
+
 ## Tips for using this driver
 Barclays ePDQ (Essential) is not the most intuitive gateway to use, so with that in mind, here are a couple of pointers for a slightly less painful integration experience:
 * The driver defaults to using POST for the post-transaction server-to-server callback. Make sure you also set the callback method to POST in the Barclays back office. Alternatively, you can use GET by configuring the driver using the `setCallbackMethod()` method.
