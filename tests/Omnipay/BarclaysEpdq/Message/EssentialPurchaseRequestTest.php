@@ -88,15 +88,6 @@ class EssentialPurchaseRequestTest extends TestCase
         $this->assertArrayNotHasKey('blankParam', $data);
     }
 
-    public function testSettersAndGetters()
-    {
-        $value = 'test-url';
-        $this->assertSame($this->request, $this->request->setReturnUrl($value));
-        $this->assertSame($value, $this->request->getReturnUrl());
-        $this->assertSame($value, $this->request->getDeclineUrl());
-        $this->assertSame($value, $this->request->getExceptionUrl());
-    }
-
     public function testCardDetails()
     {
         $card = new CreditCard();

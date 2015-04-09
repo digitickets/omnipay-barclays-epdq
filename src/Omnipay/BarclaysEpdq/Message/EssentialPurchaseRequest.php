@@ -36,14 +36,14 @@ class EssentialPurchaseRequest extends AbstractRequest
         return $this->setParameter('language', $value);
     }
 
-    public function getReturnUrl()
-    {
-        return $this->getParameter('returnUrl');
-    }
-
     public function getDeclineUrl()
     {
         return $this->getParameter('declineUrl');
+    }
+
+    public function setDeclineUrl($value)
+    {
+        return $this->setParameter('declineUrl', $value);
     }
 
     public function getExceptionUrl()
@@ -51,13 +51,9 @@ class EssentialPurchaseRequest extends AbstractRequest
         return $this->getParameter('exceptionUrl');
     }
 
-    public function setReturnUrl($value)
+    public function setExceptionUrl($value)
     {
-        $this->setParameter('returnUrl', $value);
-        $this->setParameter('declineUrl', $value);
-        $this->setParameter('exceptionUrl', $value);
-
-        return $this;
+        return $this->setParameter('exceptionUrl', $value);
     }
 
     public function getShaIn()
