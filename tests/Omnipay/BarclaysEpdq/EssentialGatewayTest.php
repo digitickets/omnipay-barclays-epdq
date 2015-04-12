@@ -33,7 +33,7 @@ class EssentialGatewayTest extends GatewayTestCase
         $vars = array('shaIn', 'shaOut');
 
 
-        foreach($vars as $var) {
+        foreach ($vars as $var) {
             $value = uniqid();
 
             $setMethod = sprintf("set%s", ucfirst($var));
