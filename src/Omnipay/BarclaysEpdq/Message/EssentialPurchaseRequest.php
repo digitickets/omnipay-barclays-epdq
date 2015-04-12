@@ -8,6 +8,7 @@ use Omnipay\BarclaysEpdq\Feedback;
 use Omnipay\Common\Currency;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Message\AbstractRequest;
+use Omnipay\Omnipay;
 
 /**
  * BarclaysEpdq Essential Purchase Request
@@ -178,38 +179,45 @@ class EssentialPurchaseRequest extends AbstractRequest
 
         $data = array();
 
-        $data['PSPID'] = $this->getClientId();
+        $data['PSPID']          = $this->getClientId();
 
-        $data['ORDERID'] = $this->getTransactionId();
-        $data['CURRENCY'] = $this->getCurrency();
-        $data['LANGUAGE'] = $this->getLanguage();
-        $data['AMOUNT'] = $this->getAmountInteger();
+        $data['ORDERID']        = $this->getTransactionId();
+        $data['CURRENCY']       = $this->getCurrency();
+        $data['LANGUAGE']       = $this->getLanguage();
+        $data['AMOUNT']         = $this->getAmountInteger();
 
-        $data['ACCEPTURL'] = $this->getReturnUrl();
-        $data['CANCELURL'] = $this->getCancelUrl();
-        $data['DECLINEURL'] = $this->getDeclineUrl();
-        $data['EXCEPTIONURL'] = $this->getExceptionUrl();
+        $data['ACCEPTURL']      = $this->getReturnUrl();
+        $data['CANCELURL']      = $this->getCancelUrl();
+        $data['DECLINEURL']     = $this->getDeclineUrl();
+        $data['EXCEPTIONURL']   = $this->getExceptionUrl();
 
         $card = $this->getCard();
         if ($card) {
-            $data['CN'] = $card->getName();
-            $data['COM'] = $card->getCompany();
-            $data['EMAIL'] = $card->getEmail();
-            $data['OWNERZIP'] = $card->getPostcode();
-            $data['OWNERTOWN'] = $card->getCity();
-            $data['OWNERCTY'] = $card->getCountry();
-            $data['OWNERTELNO'] = $card->getPhone();
-            $data['OWNERADDRESS'] = $card->getAddress1();
-            $data['OWNERADDRESS2'] = $card->getAddress2();
+            $data['CN']              = $card->getName();
+            $data['COM']             = $card->getCompany();
+            $data['EMAIL']           = $card->getEmail();
+            $data['OWNERZIP']        = $card->getPostcode();
+            $data['OWNERTOWN']       = $card->getCity();
+            $data['OWNERCTY']        = $card->getCountry();
+            $data['OWNERTELNO']      = $card->getPhone();
+            $data['OWNERADDRESS']    = $card->getAddress1();
+            $data['OWNERADDRESS2']   = $card->getAddress2();
         }
 
         $items = $this->getItems();
         if ($items) {
             foreach ($items as $n => $item) {
-                $data["ITEMNAME$n"] = $item->getName();
-                $data["ITEMDESC$n"] = $item->getDescription();
-                $data["ITEMQUANT$n"] = $item->getQuantity();
-                $data["ITEMPRICE$n"] = $this->formatCurrency($item->getPrice());
+                $data["ITEMNAME$n"]            = $item->getName();
+                $data["ITEMDESC$n"]            = $item->getDescription();
+                $data["ITEMQUANT$n"]           = $item->getQuantity();
+                $data["ITEMPRICE$n"]           = $this->formatCurrency($item->getPrice());
+                if (is_a($item, 'Omnipay\BarclaysEpdq\Item')) {
+                    $data["ITEMID$n"]              = $item->getId();
+                    $data["ITEMCOMMENTS$n"]        = $item->getComments();
+                    $data["ITEMCATEGORY$n"]        = $item->getCategory();
+                    $data["ITEMATTRIBUTES$n"]      = $item->getAttributes();
+                    $data["ITEMDISCOUNT$n"]        = $this->formatCurrency($item->getDiscount());
+                    $data["ITEMUNITOFMEASURE$n"]   = $item->getUnitOfMeasure();
             }
         }
 
