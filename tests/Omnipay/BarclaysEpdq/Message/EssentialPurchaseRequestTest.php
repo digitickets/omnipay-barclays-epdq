@@ -88,6 +88,27 @@ class EssentialPurchaseRequestTest extends TestCase
         $this->assertArrayNotHasKey('blankParam', $data);
     }
 
+    public function testSettersAndGetters()
+    {
+        // backward compatiblity test
+        $value = 'test-url';
+        $this->assertSame($this->request, $this->request->setReturnUrl($value));
+        $this->assertSame($value, $this->request->getReturnUrl());
+        $this->assertSame($value, $this->request->getDeclineUrl());
+        $this->assertSame($value, $this->request->getExceptionUrl());
+
+        // new methods tests
+        $declineUrl = 'decline-url';
+        $this->assertSame($this->request, $this->request->setDeclineUrl($declineUrl));
+        $this->assertSame($declineUrl, $this->request->getDeclineUrl());
+        $this->assertNotSame($declineUrl, $this->request->getReturnUrl());
+
+        $exceptionUrl = 'exception-url';
+        $this->assertSame($this->request, $this->request->setExceptionUrl($exceptionUrl));
+        $this->assertSame($exceptionUrl, $this->request->getExceptionUrl());
+        $this->assertNotSame($exceptionUrl, $this->request->getReturnUrl());
+    }
+
     public function testCardDetails()
     {
         $card = new CreditCard();

@@ -36,6 +36,11 @@ class EssentialPurchaseRequest extends AbstractRequest
         return $this->setParameter('language', $value);
     }
 
+    public function getReturnUrl()
+    {
+        return $this->getParameter('returnUrl');
+    }
+
     public function getDeclineUrl()
     {
         return $this->getParameter('declineUrl');
@@ -54,6 +59,22 @@ class EssentialPurchaseRequest extends AbstractRequest
     public function setExceptionUrl($value)
     {
         return $this->setParameter('exceptionUrl', $value);
+    }
+
+    /**
+     * This method keeps the backward compatibility with setDeclineUrl and setExceptionUrl.
+     * It fills returnUrl, declineUrl and exceptionUrl with the same value.
+     *
+     * @param string $value
+     * @return $this
+     */
+    public function setReturnUrl($value)
+    {
+        $this->setParameter('returnUrl', $value);
+        $this->setParameter('declineUrl', $value);
+        $this->setParameter('exceptionUrl', $value);
+
+        return $this;
     }
 
     public function getShaIn()
@@ -107,36 +128,36 @@ class EssentialPurchaseRequest extends AbstractRequest
 
         $data = array();
 
-        $data['PSPID']          = $this->getClientId();
+        $data['PSPID'] = $this->getClientId();
 
-        $data['ORDERID']        = $this->getTransactionId();
-        $data['CURRENCY']       = $this->getCurrency();
-        $data['LANGUAGE']       = $this->getLanguage();
-        $data['AMOUNT']         = $this->getAmountInteger();
+        $data['ORDERID'] = $this->getTransactionId();
+        $data['CURRENCY'] = $this->getCurrency();
+        $data['LANGUAGE'] = $this->getLanguage();
+        $data['AMOUNT'] = $this->getAmountInteger();
 
-        $data['ACCEPTURL']      = $this->getReturnUrl();
-        $data['CANCELURL']      = $this->getCancelUrl();
-        $data['DECLINEURL']     = $this->getDeclineUrl();
-        $data['EXCEPTIONURL']   = $this->getExceptionUrl();
+        $data['ACCEPTURL'] = $this->getReturnUrl();
+        $data['CANCELURL'] = $this->getCancelUrl();
+        $data['DECLINEURL'] = $this->getDeclineUrl();
+        $data['EXCEPTIONURL'] = $this->getExceptionUrl();
 
         $card = $this->getCard();
         if ($card) {
-            $data['CN']              = $card->getName();
-            $data['COM']             = $card->getCompany();
-            $data['EMAIL']           = $card->getEmail();
-            $data['OWNERZIP']        = $card->getPostcode();
-            $data['OWNERTOWN']       = $card->getCity();
-            $data['OWNERCTY']        = $card->getCountry();
-            $data['OWNERTELNO']      = $card->getPhone();
-            $data['OWNERADDRESS']    = $card->getAddress1();
-            $data['OWNERADDRESS2']   = $card->getAddress2();
+            $data['CN'] = $card->getName();
+            $data['COM'] = $card->getCompany();
+            $data['EMAIL'] = $card->getEmail();
+            $data['OWNERZIP'] = $card->getPostcode();
+            $data['OWNERTOWN'] = $card->getCity();
+            $data['OWNERCTY'] = $card->getCountry();
+            $data['OWNERTELNO'] = $card->getPhone();
+            $data['OWNERADDRESS'] = $card->getAddress1();
+            $data['OWNERADDRESS2'] = $card->getAddress2();
         }
 
         $items = $this->getItems();
         if ($items) {
             foreach ($items as $n => $item) {
-                $data["ITEMNAME$n"]  = $item->getName();
-                $data["ITEMDESC$n"]  = $item->getDescription();
+                $data["ITEMNAME$n"] = $item->getName();
+                $data["ITEMDESC$n"] = $item->getDescription();
                 $data["ITEMQUANT$n"] = $item->getQuantity();
                 $data["ITEMPRICE$n"] = $this->formatCurrency($item->getPrice());
             }
@@ -144,18 +165,18 @@ class EssentialPurchaseRequest extends AbstractRequest
 
         $pageLayout = $this->getPageLayout();
         if ($pageLayout) {
-            $data['TITLE']          = $pageLayout->getTitle();
-            $data['BGCOLOR']        = $pageLayout->getBackgroundColor();
-            $data['TXTCOLOR']       = $pageLayout->getTextColor();
-            $data['TBLBGCOLOR']     = $pageLayout->getTableBackgroundColor();
-            $data['TBLTXTCOLOR']    = $pageLayout->getTableTextColor();
-            $data['HDTBLBGCOLOR']   = $pageLayout->getHdTableBackgroundColor();
-            $data['HDTBLTXTCOLOR']  = $pageLayout->getHdTableTextColor();
-            $data['HDFONTTYPE']     = $pageLayout->getHdFontType();
-            $data['BUTTONBGCOLOR']  = $pageLayout->getButtonBackgroundColor();
+            $data['TITLE'] = $pageLayout->getTitle();
+            $data['BGCOLOR'] = $pageLayout->getBackgroundColor();
+            $data['TXTCOLOR'] = $pageLayout->getTextColor();
+            $data['TBLBGCOLOR'] = $pageLayout->getTableBackgroundColor();
+            $data['TBLTXTCOLOR'] = $pageLayout->getTableTextColor();
+            $data['HDTBLBGCOLOR'] = $pageLayout->getHdTableBackgroundColor();
+            $data['HDTBLTXTCOLOR'] = $pageLayout->getHdTableTextColor();
+            $data['HDFONTTYPE'] = $pageLayout->getHdFontType();
+            $data['BUTTONBGCOLOR'] = $pageLayout->getButtonBackgroundColor();
             $data['BUTTONTXTCOLOR'] = $pageLayout->getButtonTextColor();
-            $data['FONTTYPE']       = $pageLayout->getFontType();
-            $data['LOGO']           = $pageLayout->getLogo();
+            $data['FONTTYPE'] = $pageLayout->getFontType();
+            $data['LOGO'] = $pageLayout->getLogo();
         }
 
         $data = $this->cleanParameters($data);
