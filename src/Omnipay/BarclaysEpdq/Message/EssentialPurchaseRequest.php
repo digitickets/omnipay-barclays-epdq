@@ -4,6 +4,9 @@ namespace Omnipay\BarclaysEpdq\Message;
 
 use Omnipay\BarclaysEpdq\PageLayout;
 use Omnipay\BarclaysEpdq\Delivery;
+use Omnipay\BarclaysEpdq\Feedback;
+use Omnipay\Common\Currency;
+use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Message\AbstractRequest;
 
 /**
@@ -107,6 +110,22 @@ class EssentialPurchaseRequest extends AbstractRequest
     }
 
     /**
+<<<<<<< HEAD
+     * Get the page layout configuration
+     *
+     * @return PageLayout
+     */
+    public function getPageLayout()
+    {
+        return $this->getParameter('pageLayout');
+    }
+
+    public function setPageLayout($value)
+    {
+        return $this->setParameter('pageLayout', $value);
+    }
+
+    /**
      * Get the page layout configuration
      *
      * @return PageLayout
@@ -134,6 +153,23 @@ class EssentialPurchaseRequest extends AbstractRequest
     public function setDelivery($value)
     {
         return $this->setParameter('delivery', $value);
+    }
+
+    /**
+     * @return Feedback
+     */
+    public function getFeedback()
+    {
+        return $this->getParameter('feedback');
+    }
+
+    /**
+     * @param Feedback $value
+     * @return AbstractRequest
+     */
+    public function setFeedback($value)
+    {
+        return $this->setParameter('feedback', $value);
     }
 
     public function getData()
@@ -175,6 +211,12 @@ class EssentialPurchaseRequest extends AbstractRequest
                 $data["ITEMQUANT$n"] = $item->getQuantity();
                 $data["ITEMPRICE$n"] = $this->formatCurrency($item->getPrice());
             }
+        }
+
+        $feedback = $this->getFeedback();
+        if ($feedback) {
+            $data['COMPLUS']   = $feedback->getComPlus();
+            $data['PARAMPLUS'] = $feedback->getParamPlus();
         }
 
         $pageLayout = $this->getPageLayout();
