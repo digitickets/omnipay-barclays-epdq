@@ -114,7 +114,7 @@ class Item extends \Omnipay\Common\Item
     /**
      * Set the item discount
      *
-     * @param string $value
+     * @param float $value
      * @return $this
      */
     public function setDiscount($value)
@@ -152,7 +152,7 @@ class Item extends \Omnipay\Common\Item
     /**
      * Set the item weight
      *
-     * @param string $value
+     * @param float $value
      * @return $this
      */
     public function setWeight($value)
@@ -171,7 +171,7 @@ class Item extends \Omnipay\Common\Item
     /**
      * Set the item VAT
      *
-     * @param string $value
+     * @param float $value
      * @return $this
      */
     public function setVat($value)
@@ -190,7 +190,7 @@ class Item extends \Omnipay\Common\Item
     /**
      * Set the item VAT code
      *
-     * @param string $value
+     * @param float $value
      * @return $this
      */
     public function setVatCode($value)
@@ -209,7 +209,7 @@ class Item extends \Omnipay\Common\Item
     /**
      * Set the item Maximum quantity
      *
-     * @param string $value
+     * @param float $value
      * @return $this
      */
     public function setMaximumQuantity($value)

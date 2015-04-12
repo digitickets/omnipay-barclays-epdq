@@ -5,6 +5,7 @@ namespace Omnipay\BarclaysEpdq\Message;
 use Omnipay\BarclaysEpdq\PageLayout;
 use Omnipay\BarclaysEpdq\Delivery;
 use Omnipay\Common\Message\AbstractRequest;
+use Omnipay\Omnipay;
 
 /**
  * BarclaysEpdq Essential Purchase Request
@@ -153,22 +154,23 @@ class EssentialPurchaseRequest extends AbstractRequest
         $items = $this->getItems();
         if ($items) {
             foreach ($items as $n => $item) {
-                $data["ITEMID$n"]              = $item->getId();
                 $data["ITEMNAME$n"]            = $item->getName();
                 $data["ITEMDESC$n"]            = $item->getDescription();
-                $data["ITEMCOMMENTS$n"]        = $item->getComments();
-                $data["ITEMCATEGORY$n"]        = $item->getCategory();
-                $data["ITEMATTRIBUTES$n"]      = $item->getAttributes();
-                $data["ITEMDISCOUNT$n"]        = $item->getDiscount();
-                $data["ITEMUNITOFMEASURE$n"]   = $item->getUnitOfMeasure();
-                $data["ITEMWEIGHT$n"]          = $item->getWeight();
-                $data["ITEMVAT$n"]             = $item->getVat();
-                $data["ITEMVAT$n"]             = $item->getVat();
-                $data["ITEMVATCODE$n"]         = $item->getVatCode();
-                $data["ITEMFDMPRODUCTCATEG$n"] = $item->getFraudModuleCategory();
-                $data["ITEMQUANTORIG$n"]       = $item->getMaximumQuantity();
                 $data["ITEMQUANT$n"]           = $item->getQuantity();
                 $data["ITEMPRICE$n"]           = $this->formatCurrency($item->getPrice());
+                if (is_a($item, 'Omnipay\BarclaysEpdq\Item')) {
+                    $data["ITEMID$n"]              = $item->getId();
+                    $data["ITEMCOMMENTS$n"]        = $item->getComments();
+                    $data["ITEMCATEGORY$n"]        = $item->getCategory();
+                    $data["ITEMATTRIBUTES$n"]      = $item->getAttributes();
+                    $data["ITEMDISCOUNT$n"]        = $this->formatCurrency($item->getDiscount());
+                    $data["ITEMUNITOFMEASURE$n"]   = $item->getUnitOfMeasure();
+                    $data["ITEMWEIGHT$n"]          = $item->getWeight();
+                    $data["ITEMVAT$n"]             = $this->formatCurrency($item->getVat());
+                    $data["ITEMVATCODE$n"]         = $item->getVatCode();
+                    $data["ITEMFDMPRODUCTCATEG$n"] = $item->getFraudModuleCategory();
+                    $data["ITEMQUANTORIG$n"]       = $item->getMaximumQuantity();
+                }
             }
         }
 
