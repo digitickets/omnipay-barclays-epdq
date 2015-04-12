@@ -111,22 +111,6 @@ class EssentialPurchaseRequest extends AbstractRequest
     }
 
     /**
-<<<<<<< HEAD
-     * Get the page layout configuration
-     *
-     * @return PageLayout
-     */
-    public function getPageLayout()
-    {
-        return $this->getParameter('pageLayout');
-    }
-
-    public function setPageLayout($value)
-    {
-        return $this->setParameter('pageLayout', $value);
-    }
-
-    /**
      * Get the page layout configuration
      *
      * @return PageLayout
@@ -218,6 +202,12 @@ class EssentialPurchaseRequest extends AbstractRequest
                     $data["ITEMATTRIBUTES$n"]      = $item->getAttributes();
                     $data["ITEMDISCOUNT$n"]        = $this->formatCurrency($item->getDiscount());
                     $data["ITEMUNITOFMEASURE$n"]   = $item->getUnitOfMeasure();
+                    $data["ITEMWEIGHT$n"]          = $item->getWeight();
+                    $data["ITEMVAT$n"]             = $this->formatCurrency($item->getVat());
+                    $data["ITEMVATCODE$n"]         = $item->getVatCode();
+                    $data["ITEMFDMPRODUCTCATEG$n"] = $item->getFraudModuleCategory();
+                    $data["ITEMQUANTORIG$n"]       = $item->getMaximumQuantity();
+                }
             }
         }
 
