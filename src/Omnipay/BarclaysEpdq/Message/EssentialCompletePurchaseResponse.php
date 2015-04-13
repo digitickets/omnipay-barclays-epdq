@@ -191,18 +191,27 @@ class EssentialCompletePurchaseResponse extends AbstractResponse
      *
      * For VISA, VISA PC, MASTERCARD, MASTERCARD PC and MASTERCARD PC CM CIC the 4 last digits will be visible.
      *
-     * For all other brands/payment methods the part that is masked depends on the length of the card number or account number:
+     * For all other brands/payment methods the part that is masked depends on the length of the card number or
+     * account number:
      *
-     * If the number is longer than 15 digits: the 6 first and 2 last digits are visible, with xxxxxxxx (8x) in the middle.
-     * If the number is from 12 to 15 digits long: the first 4 and last 2 digits are visible, with xxxxxx (6x) in the middle.
-     * If the number is from 8 to 11 digits long: the first 2 and last 2 digits are visible, with xxxx (4x) in the middle.
-     * If the number is from 4 to 7 digits long: the first and last digit is visible, with xx (2x) in the middle.
+     * If the number is longer than 15 digits: the 6 first and 2 last digits are visible,
+     * with xxxxxxxx (8x) in the middle.
+     *
+     * If the number is from 12 to 15 digits long: the first 4 and last 2 digits are visible,
+     * with xxxxxx (6x) in the middle.
+     *
+     * If the number is from 8 to 11 digits long: the first 2 and last 2 digits are visible,
+     * with xxxx (4x) in the middle.
+     *
+     * If the number is from 4 to 7 digits long: the first and last digit is visible,
+     * with xx (2x) in the middle.
+     *
      * If the number is less than 4 digits long, the whole number will be masked.
      *
      * The account number will never be visible for offline bank transfer and Payment on Delivery.
      *
-     * The account number for Direct Debits transactions will be masked when the transaction is in status 4 – order stored,
-     * if the buyer has to send a signed fax to confirm the payment.
+     * The account number for Direct Debits transactions will be masked when the transaction is in status 4 – order
+     * stored, if the buyer has to send a signed fax to confirm the payment.
      *
      * @return string|null
      */
@@ -258,7 +267,8 @@ class EssentialCompletePurchaseResponse extends AbstractResponse
      *
      * There are 4 specific IP codes which refer to IP addresses for which the country of origin is uncertain:
      *
-     * A1: Anonymous proxy. Anonymous proxies are Internet access providers that allow Internet users to hide their IP address.
+     * A1: Anonymous proxy. Anonymous proxies are Internet access providers that allow Internet users to hide
+     * their IP address.
      * AP: Asian Pacific region
      * EU: European network
      * A2: Satellite providers
@@ -311,7 +321,8 @@ class EssentialCompletePurchaseResponse extends AbstractResponse
      * customer (recurring transaction).
      *
      * 3 - Installment payments
-     * Partial payment of goods/services that have already been delivered, but will be paid for in several spread payments.
+     * Partial payment of goods/services that have already been delivered, but will be paid for in several
+     * spread payments.
      *
      * 4 - Manually keyed, card present
      * The customer is physically present in front of the merchant. The merchant has the customer's card at hand.
@@ -347,10 +358,10 @@ class EssentialCompletePurchaseResponse extends AbstractResponse
      *
      * Possible values:
      * KO: The CVC has been sent but the acquirer has given a negative response to the CVC check, i.e. the CVC is wrong.
-     * OK: The CVC has been sent and the acquirer has given a positive response to the CVC check, i.e. the CVC is correct OR
-     * The acquirer sent an authorisation code, but did not return a specific result for the CVC check.
-     * NO: All other cases. For instance, no CVC transmitted, the acquirer has replied that a CVC check was not possible,
-     * the acquirer declined the authorisation but did not provide a specific result for the CVC check, …
+     * OK: The CVC has been sent and the acquirer has given a positive response to the CVC check, i.e.the CVC is correct
+     * OR The acquirer sent an authorisation code, but did not return a specific result for the CVC check.
+     * NO: All other cases. For instance, no CVC transmitted, the acquirer has replied that a CVC check was not
+     * possible, the acquirer declined the authorisation but did not provide a specific result for the CVC check, …
      *
      * @return string|null
      */
@@ -363,11 +374,13 @@ class EssentialCompletePurchaseResponse extends AbstractResponse
      * Result of the automatic address verification. This verification is not supported by all credit card acquirers.
      *
      * Possible values:
-     * KO: The address has been sent but the acquirer has given a negative response for the address check, i.e. the address is wrong.
-     * OK: The address has been sent and the acquirer has returned a positive response for the address check, i.e. the address is correct OR
-     * The acquirer sent an authorisation code but did not return a specific response for the address check.
+     * KO: The address has been sent but the acquirer has given a negative response for the address check, i.e. the
+     * address is wrong.
+     * OK: The address has been sent and the acquirer has returned a positive response for the address check, i.e. the
+     * address is correct OR The acquirer sent an authorisation code but did not return a specific response for the
+     * address check.
      * NO: All other cases. For instance, no address transmitted; the acquirer has replied that an address check was not
-     * possible; the acquirer declined the authorisation but did not provide a specific result for the address check, …
+     * possible; the acquirer declined the authorisation but did not provide a specific result for the address check
      *
      * @return string|null
      */
