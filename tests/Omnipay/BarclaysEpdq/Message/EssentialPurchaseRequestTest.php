@@ -271,10 +271,11 @@ class EssentialPurchaseRequestTest extends TestCase
 
         foreach ($bag->all() as $key => $value) {
             /** @var Item $value */
-            $this->assertSame($data["ITEMNAME$key"], $value->getName());
-            $this->assertSame($data["ITEMDESC$key"], $value->getDescription());
-            $this->assertSame($data["ITEMQUANT$key"], $value->getQuantity());
-            $this->assertSame($data["ITEMPRICE$key"], $this->request->formatCurrency($value->getPrice()));
+            $index = $key + 1;
+            $this->assertSame($data["ITEMNAME$index"], $value->getName());
+            $this->assertSame($data["ITEMDESC$index"], $value->getDescription());
+            $this->assertSame($data["ITEMQUANT$index"], $value->getQuantity());
+            $this->assertSame($data["ITEMPRICE$index"], $this->request->formatCurrency($value->getPrice()));
         }
     }
 
@@ -308,21 +309,22 @@ class EssentialPurchaseRequestTest extends TestCase
 
         foreach ($bag->all() as $key => $value) {
             /** @var BarclaysEpdqItem $value */
-            $this->assertSame($data["ITEMNAME$key"], $value->getName());
-            $this->assertSame($data["ITEMDESC$key"], $value->getDescription());
-            $this->assertSame($data["ITEMQUANT$key"], $value->getQuantity());
-            $this->assertSame($data["ITEMPRICE$key"], $this->request->formatCurrency($value->getPrice()));
-            $this->assertSame($data["ITEMID$key"], $item->getId());
-            $this->assertSame($data["ITEMCOMMENTS$key"], $item->getComments());
-            $this->assertSame($data["ITEMCATEGORY$key"], $item->getCategory());
-            $this->assertSame($data["ITEMATTRIBUTES$key"], $item->getAttributes());
-            $this->assertSame($data["ITEMUNITOFMEASURE$key"], $item->getUnitOfMeasure());
-            $this->assertSame($data["ITEMDISCOUNT$key"], $this->request->formatCurrency($item->getDiscount()));
-            $this->assertSame($data["ITEMWEIGHT$key"], $item->getWeight());
-            $this->assertSame($data["ITEMVAT$key"], $this->request->formatCurrency($item->getVat()));
-            $this->assertSame($data["ITEMVATCODE$key"], $item->getVatCode());
-            $this->assertSame($data["ITEMFDMPRODUCTCATEG$key"], $item->getFraudModuleCategory());
-            $this->assertSame($data["ITEMQUANTORIG$key"], $item->getMaximumQuantity());
+            $index = $key + 1;
+            $this->assertSame($data["ITEMNAME$index"], $value->getName());
+            $this->assertSame($data["ITEMDESC$index"], $value->getDescription());
+            $this->assertSame($data["ITEMQUANT$index"], $value->getQuantity());
+            $this->assertSame($data["ITEMPRICE$index"], $this->request->formatCurrency($value->getPrice()));
+            $this->assertSame($data["ITEMID$index"], $item->getId());
+            $this->assertSame($data["ITEMCOMMENTS$index"], $item->getComments());
+            $this->assertSame($data["ITEMCATEGORY$index"], $item->getCategory());
+            $this->assertSame($data["ITEMATTRIBUTES$index"], $item->getAttributes());
+            $this->assertSame($data["ITEMUNITOFMEASURE$index"], $item->getUnitOfMeasure());
+            $this->assertSame($data["ITEMDISCOUNT$index"], $this->request->formatCurrency($item->getDiscount()));
+            $this->assertSame($data["ITEMWEIGHT$index"], $item->getWeight());
+            $this->assertSame($data["ITEMVAT$index"], $this->request->formatCurrency($item->getVat()));
+            $this->assertSame($data["ITEMVATCODE$index"], $item->getVatCode());
+            $this->assertSame($data["ITEMFDMPRODUCTCATEG$index"], $item->getFraudModuleCategory());
+            $this->assertSame($data["ITEMQUANTORIG$index"], $item->getMaximumQuantity());
         }
     }
 }
