@@ -167,7 +167,8 @@ class EssentialPurchaseRequest extends AbstractRequest
 
         $data['ORDERID']        = $this->getTransactionId();
         // Useful optional parameter which can be used as a variable in the post-payment feedback URL
-        // eg. The URL can be set in the ePDQ control panel as something like "https://www.example.com/callback/<PARAMVAR>"
+        // eg. The URL can be set in the ePDQ control panel as something like:
+        //     "https://www.example.com/callback/<PARAMVAR>"
         $data['PARAMVAR']       = $this->getTransactionId();
         $data['CURRENCY']       = $this->getCurrency();
         $data['LANGUAGE']       = $this->getLanguage();
