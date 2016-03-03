@@ -33,7 +33,7 @@ class EssentialGatewayTest extends GatewayTestCase
         $vars = array('shaIn', 'shaOut');
 
 
-        foreach($vars as $var) {
+        foreach ($vars as $var) {
             $value = uniqid();
 
             $setMethod = sprintf("set%s", ucfirst($var));
@@ -57,7 +57,7 @@ class EssentialGatewayTest extends GatewayTestCase
         $this->assertFalse($response->isSuccessful());
         $this->assertTrue($response->isRedirect());
         $this->assertNull($response->getTransactionReference());
-        $this->assertContains('https://payments.epdq.co.uk/ncol/prod/orderstandard.asp', $response->getRedirectUrl());
+        $this->assertContains('https://payments.epdq.co.uk/ncol/prod/order', $response->getRedirectUrl());
     }
 
     public function testCompletePurchaseSuccess()

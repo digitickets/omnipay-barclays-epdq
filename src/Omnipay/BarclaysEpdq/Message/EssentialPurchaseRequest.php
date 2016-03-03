@@ -2,7 +2,13 @@
 
 namespace Omnipay\BarclaysEpdq\Message;
 
+use Omnipay\BarclaysEpdq\PageLayout;
+use Omnipay\BarclaysEpdq\Delivery;
+use Omnipay\BarclaysEpdq\Feedback;
+use Omnipay\Common\Currency;
+use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Message\AbstractRequest;
+use Omnipay\Omnipay;
 
 /**
  * BarclaysEpdq Essential Purchase Request
@@ -43,11 +49,28 @@ class EssentialPurchaseRequest extends AbstractRequest
         return $this->getParameter('declineUrl');
     }
 
+    public function setDeclineUrl($value)
+    {
+        return $this->setParameter('declineUrl', $value);
+    }
+
     public function getExceptionUrl()
     {
         return $this->getParameter('exceptionUrl');
     }
 
+    public function setExceptionUrl($value)
+    {
+        return $this->setParameter('exceptionUrl', $value);
+    }
+
+    /**
+     * This method keeps the backward compatibility with setDeclineUrl and setExceptionUrl.
+     * It fills returnUrl, declineUrl and exceptionUrl with the same value.
+     *
+     * @param string $value
+     * @return $this
+     */
     public function setReturnUrl($value)
     {
         $this->setParameter('returnUrl', $value);
@@ -87,6 +110,53 @@ class EssentialPurchaseRequest extends AbstractRequest
         return $this->setParameter('callbackMethod', $value);
     }
 
+    /**
+     * Get the page layout configuration
+     *
+     * @return PageLayout
+     */
+    public function getPageLayout()
+    {
+        return $this->getParameter('pageLayout');
+    }
+
+    public function setPageLayout($value)
+    {
+        return $this->setParameter('pageLayout', $value);
+    }
+
+    /**
+     * Get the delivery and invoicing data parameters
+     *
+     * @return Delivery
+     */
+    public function getDelivery()
+    {
+        return $this->getParameter('delivery');
+    }
+
+    public function setDelivery($value)
+    {
+        return $this->setParameter('delivery', $value);
+    }
+
+    /**
+     * @return Feedback
+     */
+    public function getFeedback()
+    {
+        return $this->getParameter('feedback');
+    }
+
+    /**
+     * @param Feedback $value
+     * @return AbstractRequest
+     */
+    public function setFeedback($value)
+    {
+        return $this->setParameter('feedback', $value);
+    }
+
     public function getData()
     {
         $this->validate('amount', 'clientId', 'currency', 'language');
@@ -115,8 +185,10 @@ class EssentialPurchaseRequest extends AbstractRequest
             $data['EMAIL']           = $card->getEmail();
             $data['OWNERZIP']        = $card->getPostcode();
             $data['OWNERTOWN']       = $card->getCity();
+            $data['OWNERCTY']        = $card->getCountry();
             $data['OWNERTELNO']      = $card->getPhone();
             $data['OWNERADDRESS']    = $card->getAddress1();
+            $data['OWNERADDRESS2']   = $card->getAddress2();
         }
 
         $items = $this->getItems();
@@ -125,11 +197,79 @@ class EssentialPurchaseRequest extends AbstractRequest
                 /**
                  * @var \Omnipay\Common\Item $item
                  */
-                $data["ITEMNAME$n"] = $item->getName();
-                $data["ITEMDESC$n"] = $item->getDescription();
-                $data["ITEMQUANT$n"] = $item->getQuantity();
-                $data["ITEMPRICE$n"] = $this->formatCurrency($item->getPrice());
+                // item index always start from 1 not from 0
+                $index = $n + 1;
+                $data["ITEMNAME$index"]            = $item->getName();
+                $data["ITEMDESC$index"]            = $item->getDescription();
+                $data["ITEMQUANT$index"]           = $item->getQuantity();
+                $data["ITEMPRICE$index"]           = $this->formatCurrency($item->getPrice());
+                if (is_a($item, 'Omnipay\BarclaysEpdq\Item')) {
+                    $data["ITEMID$index"]              = $item->getId();
+                    $data["ITEMCOMMENTS$index"]        = $item->getComments();
+                    $data["ITEMCATEGORY$index"]        = $item->getCategory();
+                    $data["ITEMATTRIBUTES$index"]      = $item->getAttributes();
+                    $data["ITEMDISCOUNT$index"]        = $this->formatCurrency($item->getDiscount());
+                    $data["ITEMUNITOFMEASURE$index"]   = $item->getUnitOfMeasure();
+                    $data["ITEMWEIGHT$index"]          = $item->getWeight();
+                    $data["ITEMVAT$index"]             = $this->formatCurrency($item->getVat());
+                    $data["ITEMVATCODE$index"]         = $item->getVatCode();
+                    $data["ITEMFDMPRODUCTCATEG$index"] = $item->getFraudModuleCategory();
+                    $data["ITEMQUANTORIG$index"]       = $item->getMaximumQuantity();
+                }
             }
+        }
+
+        $feedback = $this->getFeedback();
+        if ($feedback) {
+            $data['COMPLUS']   = $feedback->getComPlus();
+            $data['PARAMPLUS'] = $feedback->getParamPlus();
+        }
+
+        $pageLayout = $this->getPageLayout();
+        if ($pageLayout) {
+            $data['TITLE'] = $pageLayout->getTitle();
+            $data['BGCOLOR'] = $pageLayout->getBackgroundColor();
+            $data['TXTCOLOR'] = $pageLayout->getTextColor();
+            $data['TBLBGCOLOR'] = $pageLayout->getTableBackgroundColor();
+            $data['TBLTXTCOLOR'] = $pageLayout->getTableTextColor();
+            $data['HDTBLBGCOLOR'] = $pageLayout->getHdTableBackgroundColor();
+            $data['HDTBLTXTCOLOR'] = $pageLayout->getHdTableTextColor();
+            $data['HDFONTTYPE'] = $pageLayout->getHdFontType();
+            $data['BUTTONBGCOLOR'] = $pageLayout->getButtonBackgroundColor();
+            $data['BUTTONTXTCOLOR'] = $pageLayout->getButtonTextColor();
+            $data['FONTTYPE'] = $pageLayout->getFontType();
+            $data['LOGO'] = $pageLayout->getLogo();
+        }
+
+        $delivery = $this->getDelivery();
+        if ($delivery) {
+            $data['ORDERSHIPMETH'] = $delivery->getDeliveryMethod();
+            $data['ORDERSHIPCOST'] = $delivery->getDeliveryCost();
+            $data['ORDERSHIPTAXCODE'] = $delivery->getDeliveryTaxCode();
+            $data['CUID'] = $delivery->getCuid();
+            $data['CIVILITY'] = $delivery->getCivility();
+            $data['ECOM_CONSUMER_GENDER'] = $delivery->getGender();
+            $data['ECOM_BILLTO_POSTAL_NAME_FIRST'] = $delivery->getInvoicingFirstName();
+            $data['ECOM_BILLTO_POSTAL_NAME_LAST'] = $delivery->getInvoicingLastName();
+            $data['ECOM_BILLTO_POSTAL_STREET_LINE1'] = $delivery->getInvoicingAddress1();
+            $data['ECOM_BILLTO_POSTAL_STREET_LINE2'] = $delivery->getInvoicingAddress2();
+            $data['ECOM_BILLTO_POSTAL_STREET_NUMBER'] = $delivery->getInvoicingStreetNumber();
+            $data['ECOM_BILLTO_POSTAL_POSTALCODE'] = $delivery->getInvoicingPostalCode();
+            $data['ECOM_BILLTO_POSTAL_CITY'] = $delivery->getInvoicingCity();
+            $data['ECOM_BILLTO_POSTAL_COUNTRYCODE'] = $delivery->getInvoicingCountryCode();
+            $data['ECOM_SHIPTO_POSTAL_NAME_PREFIX'] = $delivery->getDeliveryNamePrefix();
+            $data['ECOM_SHIPTO_POSTAL_NAME_FIRST'] = $delivery->getDeliveryFirstName();
+            $data['ECOM_SHIPTO_POSTAL_LAST_FIRST'] = $delivery->getDeliveryLastName();
+            $data['ECOM_SHIPTO_POSTAL_STREET_LINE1'] = $delivery->getDeliveryAddress1();
+            $data['ECOM_SHIPTO_POSTAL_STREET_LINE2'] = $delivery->getDeliveryAddress2();
+            $data['ECOM_SHIPTO_POSTAL_STREET_NUMBER'] = $delivery->getDeliveryStreetNumber();
+            $data['ECOM_SHIPTO_POSTAL_POSTALCODE'] = $delivery->getDeliveryPostalCode();
+            $data['ECOM_SHIPTO_POSTAL_CITY'] = $delivery->getDeliveryCity();
+            $data['ECOM_SHIPTO_POSTAL_COUNTRYCODE'] = $delivery->getDeliveryCountryCode();
+            $data['ECOM_SHIPTO_ONLINE_EMAIL'] = $delivery->getDeliveryEmail();
+            $data['ECOM_SHIPTO_TELECOM_FAX_NUMBER'] = $delivery->getDeliveryFax();
+            $data['ECOM_SHIPTO_TELECOM_PHONE_NUMBER'] = $delivery->getDeliveryPhone();
+            $data['ECOM_SHIPTO_DOB'] = $delivery->getDeliveryBirthDate();
         }
 
         $data = $this->cleanParameters($data);

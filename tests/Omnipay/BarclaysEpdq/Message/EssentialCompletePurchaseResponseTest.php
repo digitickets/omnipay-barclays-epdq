@@ -58,7 +58,23 @@ class EssentialCompletePurchaseResponseTest extends TestCase
             array(
                 'STATUS' => '5',
                 'PAYID' => 'abc123',
-                'NCERROR' => '0'
+                'NCERROR' => '0',
+                'currency' => 'GBP',
+                'amount' => 19.99,
+                'PM' => 'CreditCard',
+                'ACCEPTANCE' => 'test123',
+                'CARDNO' => 'XXXXXXXXXXXX5115',
+                'ED' => '0320',
+                'CN' => 'Bill States',
+                'TRXDATE' => '12/25/17',
+                'BRAND' => 'Visa',
+                'IPCTY' => 'TN',
+                'CCCTY' => 'FR',
+                'ECI' => 7,
+                'CVCCheck' => 'NO',
+                'AAVCheck' => 'YES',
+                'VC' => 'NO',
+                'IP' => '1.1.1.1'
             )
         );
 
@@ -66,6 +82,21 @@ class EssentialCompletePurchaseResponseTest extends TestCase
         $this->assertFalse($response->isRedirect());
 
         $this->assertSame('abc123', $response->getTransactionReference());
+        $this->assertSame('GBP', $response->getCurrency());
+        $this->assertSame(19.99, $response->getAmount());
+        $this->assertSame('CreditCard', $response->getPaymentMethod());
+        $this->assertSame('test123', $response->getAcceptance());
+        $this->assertSame('XXXXXXXXXXXX5115', $response->getCardNumber());
+        $this->assertSame('0320', $response->getExpiryDate());
+        $this->assertSame('Bill States', $response->getCardHolder());
+        $this->assertSame('12/25/17', $response->getTransactionDate());
+        $this->assertSame('Visa', $response->getCardBrand());
+        $this->assertSame('TN', $response->getIPCountry());
+        $this->assertSame(7, $response->getECI());
+        $this->assertSame('NO', $response->getCVCCheck());
+        $this->assertSame('YES', $response->getAAVCheck());
+        $this->assertSame('NO', $response->getVirtualCard());
+        $this->assertSame('1.1.1.1', $response->getIPAddress());
         $this->assertSame('0', $response->getNcError());
 
         $this->assertSame(5, $response->getStatusCode());
