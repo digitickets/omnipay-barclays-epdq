@@ -2,8 +2,6 @@
 
 namespace Omnipay\BarclaysEpdq\Message;
 
-use Omnipay\Common\Currency;
-use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Message\AbstractRequest;
 
 /**
@@ -124,6 +122,9 @@ class EssentialPurchaseRequest extends AbstractRequest
         $items = $this->getItems();
         if ($items) {
             foreach ($items as $n => $item) {
+                /**
+                 * @var \Omnipay\Common\Item $item
+                 */
                 $data["ITEMNAME$n"] = $item->getName();
                 $data["ITEMDESC$n"] = $item->getDescription();
                 $data["ITEMQUANT$n"] = $item->getQuantity();
