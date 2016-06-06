@@ -5,10 +5,7 @@ namespace Omnipay\BarclaysEpdq\Message;
 use Omnipay\BarclaysEpdq\PageLayout;
 use Omnipay\BarclaysEpdq\Delivery;
 use Omnipay\BarclaysEpdq\Feedback;
-use Omnipay\Common\Currency;
-use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Message\AbstractRequest;
-use Omnipay\Omnipay;
 
 /**
  * BarclaysEpdq Essential Purchase Request
@@ -24,9 +21,16 @@ class EssentialPurchaseRequest extends AbstractRequest
         return $this->getParameter('clientId');
     }
 
+    /**
+     * Your affiliation name in our system, chosen by yourself when opening your account with us.
+     * This is a unique identifier and can’t ever be changed.
+     *
+     * @param string $value Max length of 30.
+     * @return AbstractRequest
+     */
     public function setClientId($value)
     {
-        return $this->setParameter('clientId', $value);
+        return $this->setParameter('clientId', substr($value, 0, 30));
     }
 
     public function getLanguage()
@@ -51,7 +55,7 @@ class EssentialPurchaseRequest extends AbstractRequest
 
     public function setDeclineUrl($value)
     {
-        return $this->setParameter('declineUrl', $value);
+        return $this->setParameter('declineUrl', substr($value, 0, 200));
     }
 
     public function getExceptionUrl()
@@ -61,18 +65,19 @@ class EssentialPurchaseRequest extends AbstractRequest
 
     public function setExceptionUrl($value)
     {
-        return $this->setParameter('exceptionUrl', $value);
+        return $this->setParameter('exceptionUrl', substr($value, 0, 200));
     }
 
     /**
      * This method keeps the backward compatibility with setDeclineUrl and setExceptionUrl.
      * It fills returnUrl, declineUrl and exceptionUrl with the same value.
      *
-     * @param string $value
+     * @param string $value Max length of 200
      * @return $this
      */
     public function setReturnUrl($value)
     {
+        $value = substr($value, 0, 200);
         $this->setParameter('returnUrl', $value);
         $this->setParameter('declineUrl', $value);
         $this->setParameter('exceptionUrl', $value);
@@ -196,7 +201,7 @@ class EssentialPurchaseRequest extends AbstractRequest
         if ($items) {
             foreach ($items as $n => $item) {
                 /**
-                 * @var \Omnipay\Common\Item $item
+                 * @var \Omnipay\BarclaysEpdq\Item $item
                  */
                 // item index always start from 1 not from 0
                 $index = $n + 1;

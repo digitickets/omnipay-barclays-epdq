@@ -24,7 +24,7 @@
         },
         {
             "name": "Omnipay Contributors",
-            "homepage": "https://github.com/barclays-epdq/contributors"
+            "homepage": "https://github.com/samvaughton/omnipay-barclays-epdq/graphs/contributors"
         }
     ],
     "autoload": {

@@ -24,7 +24,7 @@ class Item extends \Omnipay\Common\Item
      */
     public function setId($value)
     {
-        return $this->setParameter('id', $value);
+        return $this->setParameter('id', substr($value, 0, 15));
     }
 
     /**
@@ -43,7 +43,7 @@ class Item extends \Omnipay\Common\Item
      */
     public function setCategory($value)
     {
-        return $this->setParameter('category', $value);
+        return $this->setParameter('category', substr($value, 0, 50));
     }
 
     /**
@@ -81,7 +81,7 @@ class Item extends \Omnipay\Common\Item
      */
     public function setComments($value)
     {
-        return $this->setParameter('comments', $value);
+        return $this->setParameter('comments', substr($value, 0, 255));
     }
 
     /**
@@ -215,5 +215,23 @@ class Item extends \Omnipay\Common\Item
     public function setMaximumQuantity($value)
     {
         return $this->setParameter('maximumQuantity', $value);
+    }
+
+    /**
+     * @param string $value Max length of 16.
+     * @return $this
+     */
+    public function setDescription($value)
+    {
+        return parent::setDescription(substr($value, 0, 16));
+    }
+
+    /**
+     * @param string $value Max length of 40.
+     * @return $this
+     */
+    public function setName($value)
+    {
+        return parent::setName(substr($value, 0, 40));
     }
 }
