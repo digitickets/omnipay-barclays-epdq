@@ -334,7 +334,7 @@ class EssentialPurchaseRequest extends AbstractRequest
     public function setItems($items)
     {
         $newItems = new ItemBag();
-        foreach($items as $item){
+        foreach ($items as $item) {
             $newItems->add(new Item($item->getParameters()));
         }
 
