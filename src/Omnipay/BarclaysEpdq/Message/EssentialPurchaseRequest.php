@@ -2,9 +2,11 @@
 
 namespace Omnipay\BarclaysEpdq\Message;
 
+use Omnipay\BarclaysEpdq\Item;
 use Omnipay\BarclaysEpdq\PageLayout;
 use Omnipay\BarclaysEpdq\Delivery;
 use Omnipay\BarclaysEpdq\Feedback;
+use Omnipay\Common\ItemBag;
 use Omnipay\Common\Message\AbstractRequest;
 
 /**
@@ -319,5 +321,23 @@ class EssentialPurchaseRequest extends AbstractRequest
     public function getEndpoint()
     {
         return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
+    }
+
+    /**
+     * Set items for request
+     *
+     * Cast the items to instances of \Omnipay\BarclaysEpdq\Item
+     *
+     * @param array|\Omnipay\Common\ItemBag|\Omnipay\Common\Item[] $items
+     * @return AbstractRequest
+     */
+    public function setItems($items)
+    {
+        $newItems = new ItemBag();
+        foreach ($items as $item) {
+            $newItems->add(new Item($item->getParameters()));
+        }
+
+        return parent::setItems($newItems);
     }
 }
