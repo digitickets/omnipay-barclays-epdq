@@ -22,7 +22,8 @@ class EssentialPurchaseRequest extends AbstractRequest
     }
 
     /**
-     * Your affiliation name in our system, chosen by yourself when opening your account with us. This is a unique identifier and can’t ever be changed.
+     * Your affiliation name in our system, chosen by yourself when opening your account with us.
+     * This is a unique identifier and can’t ever be changed.
      *
      * @param string $value Max length of 30.
      * @return AbstractRequest

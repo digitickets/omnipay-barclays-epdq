@@ -234,5 +234,4 @@ class Item extends \Omnipay\Common\Item
     {
         return parent::setName(substr($value, 0, 40));
     }
-
 }
