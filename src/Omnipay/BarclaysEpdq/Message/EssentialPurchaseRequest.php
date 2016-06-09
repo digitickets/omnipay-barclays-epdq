@@ -201,28 +201,32 @@ class EssentialPurchaseRequest extends AbstractRequest
 
         $items = $this->getItems();
         if ($items) {
+            $index = 0;
             foreach ($items as $n => $item) {
-                /**
-                 * @var \Omnipay\BarclaysEpdq\Item $item
-                 */
-                // item index always start from 1 not from 0
-                $index = $n + 1;
-                $data["ITEMNAME$index"]            = $item->getName();
-                $data["ITEMDESC$index"]            = $item->getDescription();
-                $data["ITEMQUANT$index"]           = $item->getQuantity();
-                $data["ITEMPRICE$index"]           = $this->formatCurrency($item->getPrice());
-                if (is_a($item, 'Omnipay\BarclaysEpdq\Item')) {
-                    $data["ITEMID$index"]              = $item->getId();
-                    $data["ITEMCOMMENTS$index"]        = $item->getComments();
-                    $data["ITEMCATEGORY$index"]        = $item->getCategory();
-                    $data["ITEMATTRIBUTES$index"]      = $item->getAttributes();
-                    $data["ITEMDISCOUNT$index"]        = $this->formatCurrency($item->getDiscount());
-                    $data["ITEMUNITOFMEASURE$index"]   = $item->getUnitOfMeasure();
-                    $data["ITEMWEIGHT$index"]          = $item->getWeight();
-                    $data["ITEMVAT$index"]             = $this->formatCurrency($item->getVat());
-                    $data["ITEMVATCODE$index"]         = $item->getVatCode();
-                    $data["ITEMFDMPRODUCTCATEG$index"] = $item->getFraudModuleCategory();
-                    $data["ITEMQUANTORIG$index"]       = $item->getMaximumQuantity();
+                // Ignore zero priced items as too many causes problems with Barclays EPDQ.
+                if ($item->getPrice() <> 0) {
+                    /**
+                     * @var \Omnipay\BarclaysEpdq\Item $item
+                     */
+                    // item index always start from 1 not from 0
+                    ++$index;
+                    $data["ITEMNAME$index"]            = $item->getName();
+                    $data["ITEMDESC$index"]            = $item->getDescription();
+                    $data["ITEMQUANT$index"]           = $item->getQuantity();
+                    $data["ITEMPRICE$index"]           = $this->formatCurrency($item->getPrice());
+                    if (is_a($item, 'Omnipay\BarclaysEpdq\Item')) {
+                        $data["ITEMID$index"]              = $item->getId();
+                        $data["ITEMCOMMENTS$index"]        = $item->getComments();
+                        $data["ITEMCATEGORY$index"]        = $item->getCategory();
+                        $data["ITEMATTRIBUTES$index"]      = $item->getAttributes();
+                        $data["ITEMDISCOUNT$index"]        = $this->formatCurrency($item->getDiscount());
+                        $data["ITEMUNITOFMEASURE$index"]   = $item->getUnitOfMeasure();
+                        $data["ITEMWEIGHT$index"]          = $item->getWeight();
+                        $data["ITEMVAT$index"]             = $this->formatCurrency($item->getVat());
+                        $data["ITEMVATCODE$index"]         = $item->getVatCode();
+                        $data["ITEMFDMPRODUCTCATEG$index"] = $item->getFraudModuleCategory();
+                        $data["ITEMQUANTORIG$index"]       = $item->getMaximumQuantity();
+                    }
                 }
             }
         }
