@@ -199,19 +199,18 @@ class EssentialPurchaseRequest extends AbstractRequest
             $data['OWNERADDRESS2']   = $card->getAddress2();
         }
 
+        /** @var \Omnipay\BarclaysEpdq\Item[] $items */
         $items = $this->getItems();
         if ($items) {
             $index = 0;
             foreach ($items as $n => $item) {
                 // Ignore zero priced items as too many causes problems with Barclays EPDQ.
                 if ($item->getPrice() <> 0) {
-                    /**
-                     * @var \Omnipay\BarclaysEpdq\Item $item
-                     */
                     // item index always start from 1 not from 0
                     ++$index;
                     $data["ITEMNAME$index"]            = $item->getName();
-                    $data["ITEMDESC$index"]            = $item->getDescription();
+                    // Empty descriptions are not allowed.
+                    $data["ITEMDESC$index"]            = $item->getDescription() ?: ' ';
                     $data["ITEMQUANT$index"]           = $item->getQuantity();
                     $data["ITEMPRICE$index"]           = $this->formatCurrency($item->getPrice());
                     if (is_a($item, 'Omnipay\BarclaysEpdq\Item')) {
