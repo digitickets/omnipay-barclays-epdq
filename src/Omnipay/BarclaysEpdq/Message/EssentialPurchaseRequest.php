@@ -209,7 +209,8 @@ class EssentialPurchaseRequest extends AbstractRequest
                     // item index always start from 1 not from 0
                     ++$index;
                     $data["ITEMNAME$index"]            = $item->getName();
-                    $data["ITEMDESC$index"]            = $item->getDescription() ?: ' '; // Empty descriptions are not allowed.
+                    // Empty descriptions are not allowed.
+                    $data["ITEMDESC$index"]            = $item->getDescription() ?: ' ';
                     $data["ITEMQUANT$index"]           = $item->getQuantity();
                     $data["ITEMPRICE$index"]           = $this->formatCurrency($item->getPrice());
                     if (is_a($item, 'Omnipay\BarclaysEpdq\Item')) {
