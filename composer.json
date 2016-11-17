@@ -1,5 +1,5 @@
 {
-    "name": "samvaughton/omnipay-barclays-epdq",
+    "name": "digitickets/omnipay-barclays-epdq",
     "type": "library",
     "description": "Barclays ePDQ driver for the Omnipay payment processing library.",
     "keywords": [
@@ -11,7 +11,7 @@
         "barclays",
         "epdq"
     ],
-    "homepage": "https://github.com/samvaughton/omnipay-barclays-epdq",
+    "homepage": "https://github.com/digitickets/omnipay-barclays-epdq",
     "license": "MIT",
     "authors": [
         {
@@ -35,10 +35,5 @@
     },
     "require-dev": {
         "omnipay/tests": "~2.0"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.0.x-dev"
-        }
     }
 }
