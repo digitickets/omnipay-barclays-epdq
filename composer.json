@@ -1,5 +1,5 @@
 {
-    "name": "coxeh/omnipay-barclays-epdq",
+    "name": "digitickets/omnipay-barclays-epdq",
     "type": "library",
     "description": "Barclays ePDQ driver for the Omnipay payment processing library.",
     "keywords": [

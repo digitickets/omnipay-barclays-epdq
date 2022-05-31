@@ -2,7 +2,6 @@
 
 namespace Omnipay\BarclaysEpdq;
 
-use Omnipay\BarclaysEpdq\Message\EssentialCompletePurchaseRequest;
 use Omnipay\Common\AbstractGateway;
 
 /**
