@@ -2,6 +2,7 @@
 
 namespace Omnipay\BarclaysEpdq;
 
+use Omnipay\Common\Exception\InvalidResponseException;
 use Omnipay\Tests\GatewayTestCase;
 
 class EssentialGatewayTest extends GatewayTestCase
@@ -12,10 +13,9 @@ class EssentialGatewayTest extends GatewayTestCase
      */
     protected $gateway;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
-
         $this->gateway = new EssentialGateway($this->getHttpClient(), $this->getHttpRequest());
 
         $this->options = array(
@@ -57,7 +57,7 @@ class EssentialGatewayTest extends GatewayTestCase
         $this->assertFalse($response->isSuccessful());
         $this->assertTrue($response->isRedirect());
         $this->assertNull($response->getTransactionReference());
-        $this->assertContains('https://payments.epdq.co.uk/ncol/prod/order', $response->getRedirectUrl());
+        $this->assertStringContainsString('https://payments.epdq.co.uk/ncol/prod/order', $response->getRedirectUrl());
     }
 
     public function testCompletePurchaseSuccess()
@@ -90,9 +90,6 @@ class EssentialGatewayTest extends GatewayTestCase
         $this->assertSame("Authorised", $response->getMessage());
     }
 
-    /**
-     * @expectedException \Omnipay\Common\Exception\InvalidResponseException
-     */
     public function testCompletePurchaseInvalidShaComputation()
     {
         $this->getHttpRequest()->request->replace(
@@ -100,6 +97,8 @@ class EssentialGatewayTest extends GatewayTestCase
                 'SHASIGN' => 'fake',
             )
         );
+
+        $this->expectException(InvalidResponseException::class);
 
         $this->gateway->completePurchase($this->options)->send();
     }

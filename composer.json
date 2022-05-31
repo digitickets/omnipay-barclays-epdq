@@ -33,6 +33,12 @@
     "require": {
         "league/omnipay": "^3.2.1"
     },
+    "scripts": {
+        "docker-update": "docker run --rm --interactive --tty --volume $PWD:/app composer update",
+        "docker-test": "docker run --rm --interactive --tty --volume $PWD:/app composer run test",
+        "test": "./vendor/bin/phpunit -c ./phpunit.xml.dist"
+    },
     "require-dev": {
+        "omnipay/tests": "~4.1.1"
     }
 }

@@ -7,7 +7,7 @@ use Omnipay\Tests\TestCase;
 class EssentialCompletePurchaseRequestTest extends TestCase
 {
 
-    public function setUp()
+    protected function setUp() :void
     {
         parent::setUp();
 
