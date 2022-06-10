@@ -218,10 +218,10 @@ class EssentialPurchaseRequest extends AbstractRequest
                         $data["ITEMCOMMENTS$index"]        = $item->getComments();
                         $data["ITEMCATEGORY$index"]        = $item->getCategory();
                         $data["ITEMATTRIBUTES$index"]      = $item->getAttributes();
-                        $data["ITEMDISCOUNT$index"]        = $this->formatCurrency($item->getDiscount());
+                        $data["ITEMDISCOUNT$index"]        = $this->formatCurrency($item->getDiscount() ?? 0);
                         $data["ITEMUNITOFMEASURE$index"]   = $item->getUnitOfMeasure();
                         $data["ITEMWEIGHT$index"]          = $item->getWeight();
-                        $data["ITEMVAT$index"]             = $this->formatCurrency($item->getVat());
+                        $data["ITEMVAT$index"]             = $this->formatCurrency($item->getVat() ?? 0);
                         $data["ITEMVATCODE$index"]         = $item->getVatCode();
                         $data["ITEMFDMPRODUCTCATEG$index"] = $item->getFraudModuleCategory();
                         $data["ITEMQUANTORIG$index"]       = $item->getMaximumQuantity();

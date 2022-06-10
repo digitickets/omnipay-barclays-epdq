@@ -2,6 +2,8 @@
 
 namespace Omnipay\BarclaysEpdq;
 
+use Omnipay\BarclaysEpdq\Message\EssentialCompletePurchaseRequest;
+use Omnipay\BarclaysEpdq\Message\EssentialPurchaseRequest;
 use Omnipay\Common\AbstractGateway;
 
 /**
@@ -29,7 +31,7 @@ class EssentialGateway extends AbstractGateway
 
     /**
      * @param array $parameters
-     * @return \Omnipay\BarclaysEpdq\Message\EssentialPurchaseRequest
+     * @return EssentialPurchaseRequest
      */
     public function purchase(array $parameters = array())
     {
@@ -41,7 +43,7 @@ class EssentialGateway extends AbstractGateway
 
     /**
      * @param array $parameters
-     * @return \Omnipay\BarclaysEpdq\Message\EssentialCompletePurchaseRequest
+     * @return EssentialCompletePurchaseRequest
      */
     public function completePurchase(array $parameters = array())
     {

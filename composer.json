@@ -1,5 +1,5 @@
 {
-    "name": "digitickets/omnipay-barclays-epdq",
+    "name": "coxeh/omnipay-barclays-epdq",
     "type": "library",
     "description": "Barclays ePDQ driver for the Omnipay payment processing library.",
     "keywords": [
@@ -31,9 +31,14 @@
         "psr-0": { "Omnipay\\BarclaysEpdq\\" : "src/" }
     },
     "require": {
-        "omnipay/common": "~2.0"
+        "league/omnipay": "^3.2.1"
+    },
+    "scripts": {
+        "docker-update": "docker run --rm --interactive --tty --volume $PWD:/app composer update",
+        "docker-test": "docker run --rm --interactive --tty --volume $PWD:/app composer run test",
+        "test": "./vendor/bin/phpunit -c ./phpunit.xml.dist"
     },
     "require-dev": {
-        "omnipay/tests": "~2.0"
+        "omnipay/tests": "~4.1.1"
     }
 }
